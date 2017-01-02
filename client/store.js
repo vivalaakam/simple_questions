@@ -1,22 +1,28 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import createLogger from 'redux-logger';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import createReducers from './reducers';
-import { inBrowser } from './utils';
+import { isBrowser } from './utils';
 
 const middleware = [
-  thunk,
-  createLogger({
-    predicate: () => inBrowser && process.env.NODE_ENV !== 'production',
-    collapsed: true
-  })
+  thunk
 ];
+
+const composeEnhancers = isBrowser ?
+  composeWithDevTools({
+    serializeAction: (key, value) => {
+      if (typeof value === 'symbol') {
+        return String(value);
+      }
+      return value;
+    }
+  }) : compose;
 
 export default function configureStore(initialState) {
   const store = createStore(
     createReducers(),
     initialState,
-    applyMiddleware(...middleware)
+    composeEnhancers(applyMiddleware(...middleware))
   );
 
   store.asyncReducers = {};
