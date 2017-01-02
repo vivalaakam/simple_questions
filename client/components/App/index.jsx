@@ -13,6 +13,8 @@ export default function App({ children }) {
       <nav>
         <Link to="/" {...navLinkProps}>Home</Link>
         <Link to="/game" {...navLinkProps}>Game</Link>
+        <Link to="/restricted" {...navLinkProps}>Restricted</Link>
+        <Link to="/restricted/redirect" {...navLinkProps}>Restricted Redirect</Link>
       </nav>
       <section>
         {children}
