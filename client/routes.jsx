@@ -1,11 +1,18 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
+import { getAsyncInjectors } from './utils/asyncInjectors';
 import App from './components/App';
 import Restricted from './containers/Restricted';
 
-export default function routes() {
+export default function routes(store) {
+  const { injectReducer } = getAsyncInjectors(store);
+
   function componentLoaded(cb, LoadedComponent) {
+    if (LoadedComponent.reducer) {
+      injectReducer(LoadedComponent.reducer.name, LoadedComponent.reducer);
+    }
+
     cb(null, LoadedComponent.default || LoadedComponent);
   }
 
