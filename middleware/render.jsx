@@ -1,25 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/server';
-import Root from './client/containers/Root';
-import Html from './html';
+import Html from '../html';
 
-export default function () {
+export default function (req, res) {
   if (process.env.NODE_ENV === 'development') {
     webpackIsomorphicTools.refresh();
   }
 
-  const component = (
-    <Root />
-  );
-
   const render = ReactDOM.renderToString(
     <Html
       assets={webpackIsomorphicTools.assets()}
-      component={component}
+      component={res.routerContext}
     />
   );
 
-  return (
+  res.send(
     `<!doctype html>\n${render}`
   );
 }

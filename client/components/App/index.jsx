@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 import style from './App.scss';
 
-export default function App() {
+export default function App({ children }) {
+  const navLinkProps = {
+    className: 'layout__nav-link',
+    activeClassName: 'layout__nav-link--selected'
+  };
+
   return (
     <div className={style.App}>
-      My app!
+      <nav>
+        <Link to="/" {...navLinkProps}>Home</Link>
+        <Link to="/game" {...navLinkProps}>Game</Link>
+      </nav>
+      <section>
+        {children}
+      </section>
     </div>
   );
 }
+
+App.propTypes = {
+  children: PropTypes.any
+};
