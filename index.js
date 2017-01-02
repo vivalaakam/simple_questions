@@ -7,6 +7,7 @@ const conf = require('./config/assets.config');
 try {
   const babelrc = fs.readFileSync('./.babelrc');
   const config = JSON.parse(babelrc);
+  config.plugins.push('system-import-transformer');
   require('babel-register')(config);
 } catch (err) {
   /* eslint no-console: ["error", { allow: ["error"] }] */

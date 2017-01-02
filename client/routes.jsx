@@ -2,22 +2,31 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
 import App from './components/App';
-import Homepage from './containers/Home';
-import Game from './containers/Game';
 import Restricted from './containers/Restricted';
-import RestrictedHome from './containers/RestrictedHome';
-import NotFound from './containers/NotFound';
 
 export default function routes() {
+  function componentLoaded(cb, LoadedComponent) {
+    cb(null, LoadedComponent.default || LoadedComponent);
+  }
+
+  function getComponent(name) {
+    return (next, cb) => {
+      System.import(`./containers/${name}`)
+        .then((LoadedComponent) => {
+          componentLoaded(cb, LoadedComponent);
+        });
+    };
+  }
+
   return (
     <Route path="/" component={App}>
-      <IndexRoute component={Homepage} />
-      <Route path="/game" component={Game} />
+      <IndexRoute getComponent={getComponent('Home')} />
+      <Route path="/game" getComponent={getComponent('Game')} />
       <Route path="/restricted" component={Restricted}>
-        <IndexRoute component={RestrictedHome} />
-        <Route path="redirect" component={RestrictedHome} redirect />
+        <IndexRoute getComponent={getComponent('RestrictedHome')} />
+        <Route path="redirect" getComponent={getComponent('RestrictedHome')} redirect />
       </Route>
-      <Route path="*" component={NotFound} />
+      <Route path="*" getComponent={getComponent('NotFound')} />
     </Route>
   );
 }
