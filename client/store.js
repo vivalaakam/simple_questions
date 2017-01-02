@@ -1,11 +1,17 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import createSagaMiddleware from 'redux-saga';
+
 import createReducers from './reducers';
 import { isBrowser } from './utils';
+import sagas from './sagas';
+
+const sagaMiddleware = createSagaMiddleware();
 
 const middleware = [
-  thunk
+  thunk,
+  sagaMiddleware
 ];
 
 const composeEnhancers = isBrowser ?
@@ -25,6 +31,7 @@ export default function configureStore(initialState) {
     composeEnhancers(applyMiddleware(...middleware))
   );
 
+  store.runSaga = sagaMiddleware.run;
   store.asyncReducers = {};
 
   /* istanbul ignore next */
@@ -38,6 +45,8 @@ export default function configureStore(initialState) {
       });
     });
   }
+
+  sagaMiddleware.run(sagas);
 
   return store;
 }

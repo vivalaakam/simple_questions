@@ -6,22 +6,30 @@ import App from './components/App';
 import Restricted from './containers/Restricted';
 
 export default function routes(store) {
-  const { injectReducer } = getAsyncInjectors(store);
+  const { injectReducer, injectSagas } = getAsyncInjectors(store);
 
   function componentLoaded(cb, LoadedComponent) {
     if (LoadedComponent.reducer) {
       injectReducer(LoadedComponent.reducer.name, LoadedComponent.reducer);
     }
 
+    if (LoadedComponent.sagas) {
+      injectSagas(LoadedComponent.sagas);
+    }
+
     cb(null, LoadedComponent.default || LoadedComponent);
   }
 
+  const loadInProgress = {};
+
   function getComponent(name) {
     return (next, cb) => {
-      System.import(`./containers/${name}`)
-        .then((LoadedComponent) => {
-          componentLoaded(cb, LoadedComponent);
-        });
+      if (!loadInProgress[name]) {
+        loadInProgress[name] = System.import(`./containers/${name}`)
+          .then((LoadedComponent) => {
+            componentLoaded(cb, LoadedComponent);
+          });
+      }
     };
   }
 

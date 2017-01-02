@@ -4,7 +4,8 @@ export default class Game extends Component {
   static propTypes = {
     game: PropTypes.object,
     gameStart: PropTypes.func,
-    gameFinish: PropTypes.func
+    gameFinish: PropTypes.func,
+    gameToggle: PropTypes.func
   };
 
   renderButton() {
@@ -29,6 +30,7 @@ export default class Game extends Component {
         </p>
         <div>
           {this.renderButton()}
+          <button onClick={this.props.gameToggle}>Toggle game</button>
         </div>
       </section>
     );
