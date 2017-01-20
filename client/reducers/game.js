@@ -1,8 +1,8 @@
 import { createAction } from 'redux-actions';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
-import { takeLatest, delay } from 'redux-saga';
-import { take, call, put, select, fork, cancel } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
+import { take, takeLatest, call, put, select, fork, cancel } from 'redux-saga/effects';
 
 const GAME_START = Symbol('GAME_START');
 const GAME_TOGGLE_ASYNC = Symbol('GAME_TOGGLE_ASYNC');

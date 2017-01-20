@@ -36,6 +36,7 @@ export default function routes(store) {
   return (
     <Route path="/" component={App}>
       <IndexRoute getComponent={getComponent('Home')} />
+      <Route path="/auth" getComponent={getComponent('Auth')} />
       <Route path="/game" getComponent={getComponent('Game')} />
       <Route path="/restricted" component={Restricted}>
         <IndexRoute getComponent={getComponent('RestrictedHome')} />

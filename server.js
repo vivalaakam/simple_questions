@@ -1,7 +1,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import proxy from 'http-proxy-middleware';
 import render from './middleware/render';
 import context from './middleware/router-context';
+
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -18,6 +20,12 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
+}));
+
+app.use('/api', proxy({
+  target: process.env.PROXY_SERVER,
+  changeOrigin: true,
+  pathRewrite: { '^/api': '' }
 }));
 
 app.get('/*', context, render);

@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700');
 
 html {
-  min-height: 100%;
+  min-height: 100vh;
   position: relative;
 }
 
 body, .root {
-  min-height: 100%;
+  min-height: 100vh;
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
   font-size: 14px;

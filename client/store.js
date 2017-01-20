@@ -1,34 +1,28 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
+import { routerMiddleware } from 'react-router-redux';
+import { browserHistory, createMemoryHistory } from 'react-router';
 
 import createReducers from './reducers';
-import { isBrowser } from './utils';
 import sagas from './sagas';
+import { isBrowser } from './utils';
 
 const sagaMiddleware = createSagaMiddleware();
 
+const history = isBrowser ? browserHistory : createMemoryHistory();
+
 const middleware = [
   thunk,
-  sagaMiddleware
+  sagaMiddleware,
+  routerMiddleware(history)
 ];
-
-const composeEnhancers = isBrowser ?
-  composeWithDevTools({
-    serializeAction: (key, value) => {
-      if (typeof value === 'symbol') {
-        return String(value);
-      }
-      return value;
-    }
-  }) : compose;
 
 export default function configureStore(initialState) {
   const store = createStore(
     createReducers(),
     initialState,
-    composeEnhancers(applyMiddleware(...middleware))
+    compose(applyMiddleware(...middleware))
   );
 
   store.runSaga = sagaMiddleware.run;
