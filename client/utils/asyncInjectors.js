@@ -38,6 +38,10 @@ export function injectAsyncReducer(store, isValid) {
 
     store.asyncReducers[name] = asyncReducer; // eslint-disable-line no-param-reassign
     store.replaceReducer(createReducer(store.asyncReducers));
+
+    if (window.__INITIAL_STATE__[name]) {// eslint-disable-line
+      store.updateState({ [name]: window.__INITIAL_STATE__[name] }); // eslint-disable-line
+    }
   };
 }
 

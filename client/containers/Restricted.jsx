@@ -1,30 +1,37 @@
 import { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 
-export default class Restricted extends Component {
+const state = ({ auth }) => ({ auth });
 
+
+class Restricted extends Component {
   static propTypes = {
+    auth: PropTypes.object.isRequired,
     children: PropTypes.element.isRequired,
-    router: PropTypes.object,
-    routes: PropTypes.array
+    router: PropTypes.object
   };
 
   componentWillMount() {
-    this.redirect();
+    this.checkAuth();
   }
 
   componentWillReceiveProps() {
-    this.redirect();
+    this.checkAuth();
   }
 
-  redirect() {
-    const hasRedirect = this.props.routes.some(route => route.redirect);
-    if (hasRedirect) {
-      this.props.router.push('/game');
+  checkAuth() {
+    if (!this.props.auth.id) {
+      this.props.router.push('/auth');
     }
   }
 
-
   render() {
-    return this.props.children;
+    if (this.props.auth.id) {
+      return this.props.children;
+    }
+    return null;
   }
 }
+
+
+export default connect(state)(Restricted);

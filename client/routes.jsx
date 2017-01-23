@@ -28,6 +28,7 @@ export default function routes(store) {
         loadInProgress[name] = System.import(`./containers/${name}`)
           .then((LoadedComponent) => {
             componentLoaded(cb, LoadedComponent);
+            loadInProgress[name] = null;
           });
       }
     };
@@ -40,7 +41,7 @@ export default function routes(store) {
       <Route path="/game" getComponent={getComponent('Game')} />
       <Route path="/restricted" component={Restricted}>
         <IndexRoute getComponent={getComponent('RestrictedHome')} />
-        <Route path="redirect" getComponent={getComponent('RestrictedHome')} redirect />
+        <Route path="redirect" getComponent={getComponent('RestrictedHome')} />
       </Route>
       <Route path="*" getComponent={getComponent('NotFound')} />
     </Route>

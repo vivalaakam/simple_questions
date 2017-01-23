@@ -46,7 +46,7 @@ export default class Auth extends Component {
     const { actions } = this.props;
     loginPopup('github')
       .then((data) => {
-        token.setToken(data.JWT);
+        token.setToken(data.token);
         actions.applyAuth(data);
       });
   }

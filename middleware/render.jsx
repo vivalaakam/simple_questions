@@ -11,6 +11,7 @@ export default function (req, res) {
     <Html
       assets={webpackIsomorphicTools.assets()}
       component={res.routerContext}
+      initialState={res.initialState}
     />
   );
 

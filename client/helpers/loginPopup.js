@@ -9,8 +9,10 @@ export default function loginPopup(provider) {
     const topPos = curTop + 100;
 
     function receiveMessage(result) {
-      resolve(result.data);
-      win.close();
+      if (result.data.id) {
+        resolve(result.data);
+        win.close();
+      }
     }
 
     window.addEventListener('message', receiveMessage, false);

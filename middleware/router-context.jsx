@@ -6,7 +6,7 @@ import configureStore from '../client/store';
 import makeRoutes from '../client/routes';
 
 export default function routerContext(req, res, next) {
-  const store = configureStore();
+  const store = configureStore(res.initialData);
   const routes = makeRoutes(store);
   match({
     routes,
@@ -20,6 +20,7 @@ export default function routerContext(req, res, next) {
       // path * will return a 404
       const isNotFound = renderProps.routes.find(route => route.path === '*');
       res.status(isNotFound ? 404 : 200);
+      res.initialState = store.getState();
       res.routerContext = (
         <Provider store={store}>
           <RouterContext {...renderProps} />

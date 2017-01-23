@@ -4,6 +4,7 @@ import createSagaMiddleware from 'redux-saga';
 import { routerMiddleware } from 'react-router-redux';
 import { browserHistory, createMemoryHistory } from 'react-router';
 
+import { updateState } from './reducers/outer';
 import createReducers from './reducers';
 import sagas from './sagas';
 import { isBrowser } from './utils';
@@ -21,12 +22,25 @@ const middleware = [
 export default function configureStore(initialState) {
   const store = createStore(
     createReducers(),
-    initialState,
+    {},
     compose(applyMiddleware(...middleware))
   );
 
+  store.updateState = (state) => {
+    const keys = Object.keys(store.getState());
+    const filtered = keys.reduce((st, key) => {
+      if (Object.prototype.hasOwnProperty.call(state, key)) {
+        st[key] = state[key];
+      }
+      return st;
+    }, {});
+
+    return store.dispatch(updateState(filtered));
+  };
   store.runSaga = sagaMiddleware.run;
   store.asyncReducers = {};
+
+  store.updateState(initialState);
 
   /* istanbul ignore next */
   if (module.hot) {

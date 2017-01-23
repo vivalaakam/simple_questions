@@ -1,6 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import proxy from 'http-proxy-middleware';
+import fill from './middleware/fill';
 import render from './middleware/render';
 import context from './middleware/router-context';
 
@@ -15,6 +17,7 @@ function getStaticAssets() {
 }
 
 app.use(getStaticAssets());
+app.use(cookieParser());
 app.use(express.static('public'));
 
 app.use(bodyParser.json());
@@ -28,7 +31,7 @@ app.use('/api', proxy({
   pathRewrite: { '^/api': '' }
 }));
 
-app.get('/*', context, render);
+app.get('/*', fill, context, render);
 
 app.listen(port, () => {
   /* eslint no-console: ["error", { allow: ["log"] }] */
