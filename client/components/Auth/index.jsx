@@ -48,6 +48,10 @@ export default class Auth extends Component {
       .then((data) => {
         token.setToken(data.token);
         actions.applyAuth(data);
+      })
+      .catch((error) => {
+        /* eslint no-console: ["error", { allow: ["log"] }] */
+        console.log(error.message);
       });
   }
 
