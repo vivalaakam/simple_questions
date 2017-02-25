@@ -1,9 +1,8 @@
 import React from 'react';
+import Home from '../components/Home';
 
-export default function Home() {
+export default function HomeContainer() {
   return (
-    <section>
-      Home page
-    </section>
+    <Home />
   );
 }

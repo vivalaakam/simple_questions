@@ -4796,7 +4796,7 @@
     },
     "redux-logger": {
       "version": "2.7.4",
-      "from": "redux-logger@>=2.7.4 <3.0.0",
+      "from": "https://registry.npmjs.org/redux-logger/-/redux-logger-2.7.4.tgz",
       "resolved": "https://registry.npmjs.org/redux-logger/-/redux-logger-2.7.4.tgz"
     },
     "redux-saga": {

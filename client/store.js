@@ -3,11 +3,20 @@ import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import { routerMiddleware } from 'react-router-redux';
 import { browserHistory, createMemoryHistory } from 'react-router';
+import createLogger from 'redux-logger';
+
 
 import { updateState } from './reducers/outer';
 import createReducers from './reducers';
 import sagas from './sagas';
 import { isBrowser } from './utils';
+
+const logger = createLogger({
+  actionTransformer: action => ({
+    ...action,
+    type: String(action.type)
+  })
+});
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -16,6 +25,7 @@ const history = isBrowser ? browserHistory : createMemoryHistory();
 const middleware = [
   thunk,
   sagaMiddleware,
+  logger,
   routerMiddleware(history)
 ];
 

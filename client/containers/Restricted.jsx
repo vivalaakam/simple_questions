@@ -1,10 +1,11 @@
-import { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+
+import Restricted from '../components/Restricted';
 
 const state = ({ auth }) => ({ auth });
 
-
-class Restricted extends Component {
+class RestrictedContainer extends Component {
   static propTypes = {
     auth: PropTypes.object.isRequired,
     children: PropTypes.element.isRequired,
@@ -27,11 +28,15 @@ class Restricted extends Component {
 
   render() {
     if (this.props.auth.id) {
-      return this.props.children;
+      return (
+        <Restricted>
+          {this.props.children}
+        </Restricted>
+      );
     }
     return null;
   }
 }
 
 
-export default connect(state)(Restricted);
+export default connect(state)(RestrictedContainer);

@@ -1,0 +1,13 @@
+.Restricted {
+  display: flex;
+  width: 100%;
+
+  .menu {
+    flex-basis: 60px;
+  }
+
+  .container {
+    flex: 1;
+    padding: 5px;
+  }
+}

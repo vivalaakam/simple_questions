@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
 import { getAsyncInjectors } from './utils/asyncInjectors';
-import App from './components/App';
+import App from './containers/App';
 import Restricted from './containers/Restricted';
 
 export default function routes(store) {
@@ -39,9 +39,10 @@ export default function routes(store) {
       <IndexRoute getComponent={getComponent('Home')} />
       <Route path="/auth" getComponent={getComponent('Auth')} />
       <Route path="/game" getComponent={getComponent('Game')} />
-      <Route path="/restricted" component={Restricted}>
+      <Route path="/" component={Restricted}>
         <IndexRoute getComponent={getComponent('RestrictedHome')} />
-        <Route path="redirect" getComponent={getComponent('RestrictedHome')} />
+        <Route path="home" getComponent={getComponent('RestrictedHome')} />
+        <Route path="todos" getComponent={getComponent('Todos')} />
       </Route>
       <Route path="*" getComponent={getComponent('NotFound')} />
     </Route>

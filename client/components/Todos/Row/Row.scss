@@ -1,0 +1,49 @@
+.TodosRow {
+  position: relative;
+  font-size: 14px;
+  line-height: 28px;
+  border-bottom: 1px solid #ededed;
+  display: flex;
+
+  & > div {
+    padding: 7px 15px;
+    background-color: #fff;
+  }
+
+  &.editing {
+    .mainCell {
+      padding: 3px 5px;
+    }
+  }
+
+  .mainCell {
+    flex: 1 0 0;
+  }
+
+  .destroyCell, .toggleCell {
+    position: relative;
+    flex-basis: 50px;
+  }
+
+  .destroy {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+    color: #cc9a9a;
+    margin-top: -20px;
+    transition: color 0.2s ease-out;
+    background-color: transparent;
+    border: none;
+    &:hover {
+      color: #af5b5e;
+      cursor: pointer;
+    }
+
+    &:after {
+      content: '×';
+    }
+  }
+}

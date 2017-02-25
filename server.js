@@ -28,7 +28,16 @@ app.use(bodyParser.urlencoded({
 app.use('/api', proxy({
   target: process.env.PROXY_SERVER,
   changeOrigin: true,
-  pathRewrite: { '^/api': '' }
+  logLevel: 'debug',
+  pathRewrite: { '^/api': '' },
+  onProxyReq: (proxyReq, req) => {
+    if (req.body) {
+      const bodyData = JSON.stringify(req.body);
+      proxyReq.setHeader('Content-Type', 'application/json');
+      proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
+      proxyReq.write(bodyData);
+    }
+  }
 }));
 
 app.get('/*', fill, context, render);
