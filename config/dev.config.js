@@ -17,7 +17,7 @@ config.plugins.push(
   webpackIsomorphicToolsPlugin.development()
 );
 
-config.module.loaders.push(
+config.module.rules.push(
   {
     test: /\.scss$/,
     loader: [

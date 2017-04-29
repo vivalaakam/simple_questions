@@ -17,18 +17,18 @@ config.plugins.push(
   webpackIsomorphicToolsPlugin
 );
 
-config.module.loaders.push(
+config.module.rules.push(
   {
     test: /\.scss$/,
     loader: ExtractTextPlugin.extract({
-      fallbackLoader: 'style-loader',
+      fallback: 'style-loader',
       loader: ['css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]', 'sass-loader']
     })
   },
   {
     test: /\.css$/,
     loader: ExtractTextPlugin.extract({
-      fallbackLoader: 'style-loader',
+      fallback: 'style-loader',
       loader: ['css-loader']
     })
   }

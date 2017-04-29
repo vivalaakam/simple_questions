@@ -28,11 +28,11 @@ module.exports = {
     })
   ],
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js?/,
         exclude: [/node_modules/],
-        loaders: ['babel-loader']
+        loader: ['babel-loader']
       },
       {
         test: webpackIsomorphicToolsPlugin.regular_expression('images'),
