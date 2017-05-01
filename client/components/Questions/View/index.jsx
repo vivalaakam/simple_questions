@@ -96,6 +96,10 @@ export default class QuestionView extends PureComponent {
   renderAdditions() {
     const { question } = this.props;
 
+    if (!question.additions) {
+      return null;
+    }
+
     return question.additions.map((addition, index) => (
       <div key={addition.id} className={style.row}>
         <p className={style.addition}>Дополнение #{index + 1}: {moment(addition.created_at).fromNow()}</p>
@@ -106,12 +110,13 @@ export default class QuestionView extends PureComponent {
 
   renderCommentTitle() {
     const { question } = this.props;
-    const length = question.answers.length
-    if (!length) {
+    if (!(question.answers && question.answers.length)) {
       return (
         <h2>Пока нет ответов на вопрос</h2>
       );
     }
+
+    const length = question.answers.length
 
     const count = pluralize(length, ['ответ', 'ответа', 'ответов']);
 
@@ -147,6 +152,10 @@ export default class QuestionView extends PureComponent {
 
   renderComments() {
     const { question } = this.props;
+
+    if (!question.answers) {
+      return null
+    }
 
     return question.answers.map(answer => (
       <div key={answer.id} className={style.answer}>
