@@ -149,7 +149,7 @@ export default class QuestionView extends PureComponent {
     const { question } = this.props;
 
     return question.answers.map(answer => (
-      <div key={answer.id} className={style.row}>
+      <div key={answer.id} className={style.answer}>
         <p className={style.addition}>{moment(answer.created_at).fromNow()}</p>
         <p>{answer.text}</p>
       </div>
@@ -164,9 +164,11 @@ export default class QuestionView extends PureComponent {
           <h1 className={style.title}>{question.title}</h1>
           {this.renderAdditionButton()}
         </div>
-        <p>{question.text}</p>
-        {this.renderAdditions()}
-        {this.renderAdditionForm()}
+        <div className={style.question}>
+          <p>{question.text}</p>
+          {this.renderAdditions()}
+          {this.renderAdditionForm()}
+        </div>
         {this.renderCommentTitle()}
         {this.renderComments()}
         {this.renderCommentForm()}

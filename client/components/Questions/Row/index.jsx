@@ -10,7 +10,7 @@ export default function QuestionsRow({ question }) {
   return (
     <div className={className}>
       <Link className={style.mainCell} to={`/${question.id}`}>
-        <p>{question.title}</p>
+        <h3>{question.title}</h3>
         <p>{question.text}</p>
       </Link>
     </div>
