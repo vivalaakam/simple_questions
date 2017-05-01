@@ -17,6 +17,7 @@ const QUESTION_UPDATE = 'QUESTION_UPDATE';
 const QUESTION_RESET = 'QUESTION_RESET';
 const QUESTION_ADDITION_TOGGLE = 'QUESTION_ADDITION_TOGGLE';
 const QUESTION_ADDITION_CREATE = 'QUESTION_ADDITION_CREATE';
+const QUESTION_ANSWER_CREATE = 'QUESTION_ANSWER_CREATE';
 
 export const $$initialState = {
   id: '',
@@ -25,7 +26,9 @@ export const $$initialState = {
   isNew: true,
   addition: false,
   additionText: '',
-  additions: []
+  answerText: '',
+  additions: [],
+  answers: []
 };
 
 export const createQuestion = createAction(QUESTION_CREATE);
@@ -43,6 +46,8 @@ export const changeQuestion = createAction(QUESTION_CHANGE);
 export const toggleAdditionQuestion = createAction(QUESTION_ADDITION_TOGGLE);
 
 export const createAdditionQuestion = createAction(QUESTION_ADDITION_CREATE);
+
+export const createAnswerQuestion = createAction(QUESTION_ANSWER_CREATE);
 
 export default function question($$state = $$initialState, { type, payload }) {
   switch (type) {
@@ -62,14 +67,14 @@ function getQuestion(state) {
 }
 
 function* createQuestionAction() {
-  const { additionText, ...data } = yield select(getQuestion);
+  const { additionText, answerText, ...data } = yield select(getQuestion);
   const questionData = yield apiQuestions.create(data);
   yield put(resetQuestion(questionData));
   yield put(push(`/${questionData.id}`));
 }
 
 function* updateQuestionAction() {
-  const { id, additionText, ...props } = yield select(getQuestion);
+  const { id, additionText, answerText, ...props } = yield select(getQuestion);
   const questionData = yield apiQuestions.update(id, props);
   yield put(resetQuestion(questionData));
 }
@@ -78,6 +83,12 @@ function* createAdditionQuestionAction() {
   const { id, additionText } = yield select(getQuestion);
   const questionData = yield apiQuestions.addition(id, { text: additionText });
   yield put(resetQuestion({ ...questionData, additionText: '' }));
+}
+
+function* createAnswerQuestionAction() {
+  const { id, answerText } = yield select(getQuestion);
+  const questionData = yield apiQuestions.answer(id, { text: answerText });
+  yield put(resetQuestion({ ...questionData, answerText: '' }));
 }
 
 function* deleteQuestionAction({ payload: { id } }) {
@@ -92,7 +103,7 @@ function* toggleAdditionQuestionAction() {
 
 export function* fetchQuestionAction(id) {
   const questionData = yield apiQuestions.fetch(id);
-  yield put(resetQuestion({ ...questionData, isNew: false, additionText: '' }));
+  yield put(resetQuestion({ ...questionData, isNew: false, additionText: '', answerText: '' }));
 }
 
 export function* resetQuestionInitial() {
@@ -105,4 +116,5 @@ export function* getQuestionWatcher() {
   yield takeLatest(QUESTION_DELETE, deleteQuestionAction);
   yield takeLatest(QUESTION_ADDITION_TOGGLE, toggleAdditionQuestionAction);
   yield takeLatest(QUESTION_ADDITION_CREATE, createAdditionQuestionAction);
+  yield takeLatest(QUESTION_ANSWER_CREATE, createAnswerQuestionAction);
 }

@@ -8,4 +8,8 @@ export default class Questions extends Rest {
   addition(id, { text }) {
     return this.postQuery(`${this.base_url}/${id}/addition`, { text });
   }
+
+  answer(id, { text }) {
+    return this.postQuery(`${this.base_url}/${id}/answer`, { text });
+  }
 }

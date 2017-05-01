@@ -1,7 +1,8 @@
 import React, { PureComponent, PropTypes } from 'react';
 import moment from 'moment';
-import { Btn, Inp } from '../../UI';
+import { Btn, Inp, TextArea } from '../../UI';
 import style from './View.scss';
+import pluralize from '../../../utils/pluralize'
 
 moment.locale('ru');
 
@@ -18,12 +19,15 @@ export default class QuestionView extends PureComponent {
 
   onClickSaveAddition = () => {
     this.props.actions.createAdditionQuestion();
-
   };
 
   onClickCancelAddition = () => {
     this.props.actions.toggleAdditionQuestion();
   };
+
+  onClickSaveAnswer = () => {
+    this.props.actions.createAnswerQuestion();
+  }
 
   onChangeAdditionText = () => {
     this.props.actions.changeQuestion({
@@ -31,11 +35,22 @@ export default class QuestionView extends PureComponent {
     });
   };
 
+  onChangeAnswerText = () => {
+    this.props.actions.changeQuestion({
+      answerText: this.answer.value
+    });
+  }
+
   setRefAddition = (link) => {
     this.text = link;
   };
 
+  setRefAnswer = (link) => {
+    this.answer = link;
+  };
+
   text;
+  answer;
 
   renderAdditionButton() {
     const { auth, question } = this.props;
@@ -81,14 +96,64 @@ export default class QuestionView extends PureComponent {
   renderAdditions() {
     const { question } = this.props;
 
-    return question.additions.map((addition, index) => {
+    return question.additions.map((addition, index) => (
+      <div key={addition.id} className={style.row}>
+        <p className={style.addition}>Дополнение #{index + 1}: {moment(addition.created_at).fromNow()}</p>
+        <p>{addition.text}</p>
+      </div>
+    ));
+  }
+
+  renderCommentTitle() {
+    const { question } = this.props;
+    const length = question.answers.length
+    if (!length) {
       return (
-        <div key={addition.id} className={style.row}>
-          <p className={style.addition}>Дополнение #{index + 1}: {moment(addition.created_at).fromNow()}</p>
-          <p>{addition.text}</p>
-        </div>
+        <h2>Пока нет ответов на вопрос</h2>
       );
-    });
+    }
+
+    const count = pluralize(length, ['ответ', 'ответа', 'ответов']);
+
+    return (
+      <h2>{question.answers.length} {count} на вопрос</h2>
+    );
+  }
+
+  renderCommentForm() {
+    const { auth, question } = this.props;
+    if (!auth.id) {
+      return null;
+    }
+
+    return (
+      <div>
+        <div className={style.row}>
+          <TextArea
+            className={style.inp}
+            name="answerText"
+            value={question.answerText}
+            onChange={this.onChangeAnswerText}
+            link={this.setRefAnswer}
+            placeholder="Ответить на вопрос"
+          />
+        </div>
+        <div className={style.row}>
+          <Btn onClick={this.onClickSaveAnswer}>Ответить на вопрос</Btn>
+        </div>
+      </div>
+    );
+  }
+
+  renderComments() {
+    const { question } = this.props;
+
+    return question.answers.map(answer => (
+      <div key={answer.id} className={style.row}>
+        <p className={style.addition}>{moment(answer.created_at).fromNow()}</p>
+        <p>{answer.text}</p>
+      </div>
+    ));
   }
 
   render() {
@@ -102,6 +167,9 @@ export default class QuestionView extends PureComponent {
         <p>{question.text}</p>
         {this.renderAdditions()}
         {this.renderAdditionForm()}
+        {this.renderCommentTitle()}
+        {this.renderComments()}
+        {this.renderCommentForm()}
       </div>
     );
   }

@@ -2,7 +2,12 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { toggleAdditionQuestion, createAdditionQuestion, changeQuestion } from '../reducers/questions/question';
+import {
+  toggleAdditionQuestion,
+  createAdditionQuestion,
+  changeQuestion,
+  createAnswerQuestion
+} from '../reducers/questions/question';
 
 import QuestionViewWidget from '../components/Questions/View';
 
@@ -12,7 +17,12 @@ const mapStateToProps = state => ({
 });
 
 const actionsDispatch = dispatch => ({
-  actions: bindActionCreators({ toggleAdditionQuestion, createAdditionQuestion, changeQuestion }, dispatch),
+  actions: bindActionCreators({
+    toggleAdditionQuestion,
+    createAdditionQuestion,
+    createAnswerQuestion,
+    changeQuestion
+  }, dispatch),
   dispatch
 });
 
