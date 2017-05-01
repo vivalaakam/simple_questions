@@ -3,8 +3,8 @@ import { routerReducer as routing } from 'react-router-redux';
 import outer from './outer';
 import auth from './auth';
 import modal from './modal';
-
+import questions from './questions';
 
 export default function (ext = {}) {
-  return outer(combineReducers({ auth, modal, routing, ...ext }));
+  return outer(combineReducers({ auth, modal, routing, questions, ...ext }));
 }

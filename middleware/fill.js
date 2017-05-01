@@ -18,16 +18,10 @@ export default async function fill(req, res, next) {
   }
 
   switch (req.originalUrl) {
-    case '/todos': {
-      const respList = await
-        fetch(`${process.env.PROXY_SERVER}/todos`, {
-          headers: {
-            Authorization: req.cookies.Authorization
-          }
-        });
-      const list = await
-        respList.json();
-      initialState.todos = { list };
+    case '/': {
+      const respList = await fetch(`${process.env.PROXY_SERVER}/questions`);
+      const list = await respList.json();
+      initialState.questions = { list };
       break;
     }
     default: {

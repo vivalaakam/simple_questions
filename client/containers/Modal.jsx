@@ -1,14 +1,9 @@
 import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import CreateTodo from '../components/Todos/Create';
-import ConfirmRemove from '../components/Todos/ConfirmRemove';
 import * as modalActions from '../reducers/modal';
 
-const MODAL_COMPONENTS = {
-  CREATE_TODO: CreateTodo,
-  CONFIRM_REMOVE: ConfirmRemove
-};
+const MODAL_COMPONENTS = {};
 
 const state = ({ modal }) => ({ modal });
 

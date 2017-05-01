@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import QuestionsContainer from '../../containers/Questions'
 
 export default function Home() {
   const navLinkProps = {
@@ -8,16 +9,12 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <div style={{ flex: 1 }}>
       <nav>
         <Link to="/" {...navLinkProps}>Home</Link>
-        <Link to="/game" {...navLinkProps}>Game</Link>
         <Link to="/auth" {...navLinkProps}>Auth</Link>
-        <Link to="/home" {...navLinkProps}>Home</Link>
       </nav>
-      <section>
-        Main page
-      </section>
+      <QuestionsContainer />
     </div>
   );
 }

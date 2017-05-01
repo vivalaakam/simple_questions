@@ -9,7 +9,7 @@ class RestrictedContainer extends Component {
   static propTypes = {
     auth: PropTypes.object.isRequired,
     children: PropTypes.element.isRequired,
-    router: PropTypes.object
+    router: PropTypes.object.isRequired
   };
 
   componentWillMount() {
@@ -37,6 +37,5 @@ class RestrictedContainer extends Component {
     return null;
   }
 }
-
 
 export default connect(state)(RestrictedContainer);
