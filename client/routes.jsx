@@ -14,9 +14,9 @@ export default function routes(store) {
   return (
     <Route path="/" component={App}>
       <IndexRoute component={Home} />
+      <Route path="/auth" component={Auth} />
       <Route path="/create" component={QuestionCreate} />
       <Route path="/:id" component={QuestionView} />
-      <Route path="/auth" component={Auth} />
       <Route path="/" component={Restricted}>
         <Route path="settings" component={RestrictedHome} />
       </Route>
