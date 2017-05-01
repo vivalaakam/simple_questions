@@ -2,8 +2,11 @@ import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as modalActions from '../reducers/modal';
+import ModalsAuth from '../components/Modals/Auth';
 
-const MODAL_COMPONENTS = {};
+const MODAL_COMPONENTS = {
+  MODAL_AUTH: ModalsAuth,
+};
 
 const state = ({ modal }) => ({ modal });
 

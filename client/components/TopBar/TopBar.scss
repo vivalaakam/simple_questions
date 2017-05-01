@@ -1,0 +1,45 @@
+$main-color: #474f60;
+
+.TopBar {
+  position: relative;
+  padding: 5px 10px;
+  flex-basis: 60px;
+  background-color: scale-color($main-color, $lightness: 85%);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border: 1px solid scale-color($main-color, $lightness: 65%);
+  border-top: none;
+  display: flex;
+  margin-bottom: 25px;
+
+  .auth {
+    flex-basis: 200px;
+  }
+
+  .search {
+    flex: 1;
+  }
+
+  .link, .actionLink {
+    color: $main-color;
+
+    text-decoration: none;
+    &:visited {
+      color: $main-color;
+    }
+  }
+
+  .actionLink {
+    font-weight: 600;
+    border: none;
+    background-color: transparent;
+    padding: 5px 0px;
+
+    &:focus {
+      outline: none;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

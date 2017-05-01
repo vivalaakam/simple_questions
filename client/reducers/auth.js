@@ -1,16 +1,18 @@
 import { put, fork, takeLatest, call } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 import { createAction } from 'redux-actions';
+import { resolveActionModal } from './modal';
 import { merge } from '../helpers/ramda';
 import Auth from '../api/auth';
-
+import token from '../utils/token';
 const apiAuth = new Auth();
 
-const AUTH_CURRENT = Symbol('AUTH_CURRENT');
-const AUTH_ERROR = Symbol('AUTH_ERROR');
-const AUTH_FETCH = Symbol('AUTH_FETCH');
-const AUTH_APPLY = Symbol('AUTH_APPLY');
-const AUTH_AUTHENTIFICATE = Symbol('AUTH_AUTHENTIFICATE');
+const AUTH_CURRENT = 'AUTH_CURRENT';
+const AUTH_ERROR = 'AUTH_ERROR';
+const AUTH_FETCH = 'AUTH_FETCH';
+const AUTH_APPLY = 'AUTH_APPLY';
+const AUTH_AUTHENTIFICATE = 'AUTH_AUTHENTIFICATE';
+const AUTH_LOGOUT = 'AUTH_LOGOUT';
 
 const $$initialState = {};
 
@@ -25,15 +27,17 @@ export default function auth($$state = $$initialState, { type, payload }) {
   }
 }
 
-const fetchAuth = createAction(AUTH_FETCH);
+export const fetchAuth = createAction(AUTH_FETCH);
 
-const currentAuth = createAction(AUTH_CURRENT);
+export const currentAuth = createAction(AUTH_CURRENT);
 
-const errorAuth = createAction(AUTH_ERROR);
+export const errorAuth = createAction(AUTH_ERROR);
 
-const authentificate = createAction(AUTH_AUTHENTIFICATE);
+export const authentificate = createAction(AUTH_AUTHENTIFICATE);
 
-const applyAuth = createAction(AUTH_APPLY);
+export const applyAuth = createAction(AUTH_APPLY);
+
+export const logout = createAction(AUTH_LOGOUT);
 
 function* fetchAuthAction() {
   const data = yield apiAuth.current();
@@ -51,19 +55,22 @@ function* authentificateAction({ payload: { username, password } }) {
 
 function* applyAuthAction({ payload }) {
   yield put(currentAuth(payload));
-  yield put(push('/'));
+  yield put(resolveActionModal());
+}
+
+function* logoutAction() {
+  yield apiAuth.logout();
+  yield put(currentAuth($$initialState));
+  token.removeToken();
 }
 
 function* authWatcher() {
   yield fork(takeLatest, AUTH_APPLY, applyAuthAction);
   yield fork(takeLatest, AUTH_FETCH, fetchAuthAction);
   yield fork(takeLatest, AUTH_AUTHENTIFICATE, authentificateAction);
+  yield fork(takeLatest, AUTH_LOGOUT, logoutAction);
 }
 
 export function* authData() {
   yield fork(authWatcher);
 }
-
-export {
-  fetchAuth, authentificate, errorAuth, applyAuth
-};

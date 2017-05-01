@@ -15,6 +15,7 @@ export default {
     }
   },
   removeToken() {
-    this.setToken(null);
+    localStorage.setItem(KEY, null);
+    document.cookie = 'Authorization=';
   }
 };

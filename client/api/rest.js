@@ -30,7 +30,12 @@ export default class Rest {
   getQuery(url) {
     return fetch(url, Rest.options())
       .then(Rest.afterQuery)
-      .then(response => response.json());
+      .then((response) => {
+        if (response.statusText === 'No Content') {
+          return {};
+        }
+        return response.json();
+      });
   }
 
   postQuery(url, data) {
