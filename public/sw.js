@@ -1,11 +1,8 @@
 "use strict";
 
-self.addEventListener('push', function (event) {
+self.addEventListener('push', (event) => {
 
   let notificationData = {};
-
-
-
   try {
     notificationData = event.data.json();
   } catch (e) {
@@ -16,30 +13,33 @@ self.addEventListener('push', function (event) {
     };
   }
 
+  notificationData.data = notificationData
+
   event.waitUntil(
-    self.registration.showNotification(notificationData.title, {
-      body: notificationData.body,
-      icon: notificationData.icon
-    })
+    self.registration.showNotification(notificationData.title, notificationData)
   );
 
 });
 
-self.addEventListener('notificationclick', function (event) {
-
+self.addEventListener('notificationclick', (event) => {
+  const notificationData = event.notification.data;
+  const target = `/${notificationData.id}`
   // close the notification
   event.notification.close();
 
   // see if the current is open and if it is focus it
   // otherwise open new tab
   event.waitUntil(
-    self.clients.matchAll().then(function (clientList) {
-
-      if (clientList.length > 0) {
-        return clientList[0].focus();
+    self.clients.matchAll().then((clientList) => {
+      for (var i = 0; i < clientList.length; i++) {
+        var client = clientList[i];
+        if (client.url === target && 'focus' in client) {
+          return client.focus();
+        }
       }
 
-      return self.clients.openWindow('/');
+      // Открываем новое окно
+      return self.clients.openWindow(target);
     })
   );
 });
