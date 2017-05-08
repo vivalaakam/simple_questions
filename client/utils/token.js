@@ -7,6 +7,9 @@ export default {
     }
     return null;
   },
+  getRawToken() {
+    return localStorage.getItem(KEY);
+  },
   setToken(jwt) {
     if (jwt) {
       const [, token] = jwt.split(' ');

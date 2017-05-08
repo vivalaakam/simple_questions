@@ -2,10 +2,16 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import proxy from 'http-proxy-middleware';
+import webPush from 'web-push';
 import fill from './middleware/fill';
 import render from './middleware/render';
 import context from './middleware/router-context';
 
+webPush.setVapidDetails(
+  'mailto:hallo@justmarkup.com',
+  process.env.VAPID_PUBLIC_KEY,
+  process.env.VAPID_PRIVATE_KEY
+);
 
 const port = process.env.PORT || 3000;
 const app = express();

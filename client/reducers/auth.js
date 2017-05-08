@@ -1,10 +1,11 @@
 import { put, fork, takeLatest, call } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
 import { createAction } from 'redux-actions';
 import { resolveActionModal } from './modal';
 import { merge } from '../helpers/ramda';
 import Auth from '../api/auth';
 import token from '../utils/token';
+import sw from '../utils/serviceWorker';
+
 const apiAuth = new Auth();
 
 const AUTH_CURRENT = 'AUTH_CURRENT';
@@ -44,10 +45,12 @@ function* fetchAuthAction() {
   yield put(currentAuth(data));
 }
 
-function* authentificateAction({ payload: { username, password } }) {
+function* authentificateAction({ payload: { email, password } }) {
   try {
-    const user = yield apiAuth.auth({ username, password });
+    const user = yield apiAuth.auth({ email, password });
     yield call(applyAuth, user);
+    sw.subscribeUser(token.getRawToken());
+    yield put(resolveActionModal());
   } catch (e) {
     yield put(errorAuth(e.message));
   }
@@ -55,12 +58,14 @@ function* authentificateAction({ payload: { username, password } }) {
 
 function* applyAuthAction({ payload }) {
   yield put(currentAuth(payload));
+  sw.subscribeUser(token.getRawToken());
   yield put(resolveActionModal());
 }
 
 function* logoutAction() {
   yield apiAuth.logout();
   yield put(currentAuth($$initialState));
+  sw.unsubscribeUser();
   token.removeToken();
 }
 

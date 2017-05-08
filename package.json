@@ -78,6 +78,7 @@
     "url-loader": "^0.5.7",
     "uuid": "^3.0.1",
     "warning": "^3.0.0",
+    "web-push": "^3.2.2",
     "webpack": "^2.4.1",
     "webpack-dev-middleware": "^1.10.2",
     "webpack-hot-middleware": "^2.18.0",

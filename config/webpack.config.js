@@ -21,7 +21,8 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      'process.env.PROXY_SERVER': JSON.stringify(process.env.PROXY_SERVER)
+      'process.env.PROXY_SERVER': JSON.stringify(process.env.PROXY_SERVER),
+      'process.env.VAPID_PUBLIC_KEY': JSON.stringify(process.env.VAPID_PUBLIC_KEY)
     }),
     new webpack.ProvidePlugin({
       fetch: 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'

@@ -36,7 +36,7 @@ export default class Auth extends Component {
       return;
     }
 
-    actions.authentificate({ username: this.refEmail.value, password: this.refPassword.value });
+    actions.authentificate({ email: this.refEmail.value, password: this.refPassword.value });
   }
 
   github(e) {
