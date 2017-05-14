@@ -47,6 +47,9 @@ export default class TopBar extends PureComponent {
 
   renderGoBack() {
     const { routing } = this.props;
+    if(!routing.locationBeforeTransitions) {
+      return null;
+    }
     if (routing.locationBeforeTransitions.pathname === '/') {
       return null;
     }

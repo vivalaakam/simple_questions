@@ -20,16 +20,16 @@ config.plugins.push(
 config.module.rules.push(
   {
     test: /\.scss$/,
-    loader: ExtractTextPlugin.extract({
+    use: ExtractTextPlugin.extract({
       fallback: 'style-loader',
-      loader: ['css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]', 'sass-loader']
+      use: ['css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]', 'sass-loader']
     })
   },
   {
     test: /\.css$/,
-    loader: ExtractTextPlugin.extract({
+    use: ExtractTextPlugin.extract({
       fallback: 'style-loader',
-      loader: ['css-loader']
+      use: ['css-loader']
     })
   }
 );

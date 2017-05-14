@@ -25,9 +25,12 @@ const history = isBrowser ? browserHistory : createMemoryHistory();
 const middleware = [
   thunk,
   sagaMiddleware,
-  logger,
   routerMiddleware(history)
 ];
+
+if (process.env.NODE_ENV.toLowerCase() !== 'production') {
+  middleware.push(logger);
+}
 
 export default function configureStore(initialState) {
   const store = createStore(

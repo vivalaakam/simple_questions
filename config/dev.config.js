@@ -13,14 +13,14 @@ config.entry.unshift(
 
 config.plugins.push(
   new webpack.HotModuleReplacementPlugin(),
-  new webpack.NoErrorsPlugin(),
+  new webpack.NoEmitOnErrorsPlugin(),
   webpackIsomorphicToolsPlugin.development()
 );
 
 config.module.rules.push(
   {
     test: /\.scss$/,
-    loader: [
+    use: [
       'style-loader',
       'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
       'sass-loader'
@@ -28,7 +28,7 @@ config.module.rules.push(
   },
   {
     test: /\.css$/,
-    loader: ['style-loader', 'css-loader']
+    use: ['style-loader', 'css-loader']
   }
 );
 

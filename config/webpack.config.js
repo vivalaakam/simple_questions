@@ -33,11 +33,11 @@ module.exports = {
       {
         test: /\.js?/,
         exclude: [/node_modules/],
-        loader: ['babel-loader']
+        use: ['babel-loader']
       },
       {
         test: webpackIsomorphicToolsPlugin.regular_expression('images'),
-        loader: 'file-loader'
+        use: 'file-loader'
       }
     ]
   },
