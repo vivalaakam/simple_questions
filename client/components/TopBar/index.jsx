@@ -7,7 +7,8 @@ import LoggedIn from '../../containers/LoggedIn';
 export default class TopBar extends PureComponent {
   static propTypes = {
     actions: PropTypes.object.isRequired,
-    auth: PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired,
+    routing: PropTypes.object.isRequired
   };
 
   showModal = () => {
@@ -44,9 +45,23 @@ export default class TopBar extends PureComponent {
     );
   }
 
+  renderGoBack() {
+    const { routing } = this.props;
+    if (routing.locationBeforeTransitions.pathname === '/') {
+      return null;
+    }
+
+    return (
+      <Link to="/" className={style.actionLink}>На главную</Link>
+    );
+  }
+
   render() {
     return (
       <div className={style.TopBar}>
+        <div className={style.goBack}>
+          {this.renderGoBack()}
+        </div>
         <Search className={style.search} />
         <div className={style.auth}>
           {this.renderAuth()}

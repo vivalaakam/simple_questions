@@ -5,7 +5,7 @@ import { logout } from '../reducers/auth';
 import { showModal } from '../reducers/modal';
 import TopBarWidget from '../components/TopBar';
 
-const state = ({ auth }) => ({ auth });
+const state = ({ auth, routing }) => ({ auth, routing });
 
 const actionsDispatch = dispatch => ({
   actions: bindActionCreators({
@@ -15,13 +15,14 @@ const actionsDispatch = dispatch => ({
   dispatch
 });
 
-function TopBar({ actions, auth }) {
-  return (<TopBarWidget {...{ actions, auth }} />);
+function TopBar({ actions, auth, routing }) {
+  return (<TopBarWidget {...{ actions, auth, routing }} />);
 }
 
 TopBar.propTypes = {
   actions: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  routing: PropTypes.object.isRequired
 };
 
 export default connect(state, actionsDispatch)(TopBar);
