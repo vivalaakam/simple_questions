@@ -18,6 +18,9 @@
     "storybook": "start-storybook -p 3001",
     "build-storybook": "build-storybook"
   },
+  "engines": {
+    "node": "7.10.0"
+  },
   "pre-commit": [],
   "license": "MIT",
   "dependencies": {
