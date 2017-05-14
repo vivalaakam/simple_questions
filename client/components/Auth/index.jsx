@@ -39,7 +39,7 @@ export default class Auth extends Component {
     actions.authentificate({ email: this.refEmail.value, password: this.refPassword.value });
   }
 
-  github(e) {
+  github = (e) => {
     if (e) {
       e.preventDefault();
     }
@@ -53,7 +53,39 @@ export default class Auth extends Component {
         /* eslint no-console: ["error", { allow: ["log"] }] */
         console.log(error.message);
       });
-  }
+  };
+
+  facebook = (e) => {
+    if (e) {
+      e.preventDefault();
+    }
+    const { actions } = this.props;
+    loginPopup('facebook')
+      .then((data) => {
+        token.setToken(data.token);
+        actions.applyAuth(data);
+      })
+      .catch((error) => {
+        /* eslint no-console: ["error", { allow: ["log"] }] */
+        console.log(error.message);
+      });
+  };
+
+  google = (e) => {
+    if (e) {
+      e.preventDefault();
+    }
+    const { actions } = this.props;
+    loginPopup('google_oauth2')
+      .then((data) => {
+        token.setToken(data.token);
+        actions.applyAuth(data);
+      })
+      .catch((error) => {
+        /* eslint no-console: ["error", { allow: ["log"] }] */
+        console.log(error.message);
+      });
+  };
 
   render() {
     return (
@@ -72,7 +104,10 @@ export default class Auth extends Component {
           >Submit</Btn>
         </div>
         <div className={style.row}>
-          <Btn className={style.btn} scheme="github" onClick={::this.github}>Login via GitHub</Btn>
+          <Btn className={style.btn} scheme="facebook" onClick={this.facebook}>Войти с помощью Facebook</Btn>
+        </div>
+        <div className={style.row}>
+          <Btn className={style.btn} scheme="google" onClick={this.google}>Войти с помощью Google+</Btn>
         </div>
       </div>
     );

@@ -3,6 +3,8 @@ $blue-color: #4ba9df;
 $green-color: #80d426;
 $orange-color: #f4b723;
 $github-color: #3c4146;
+$google-color: #DC4E41;
+$facebook-color: #4267b2;
 
 .Btn {
 
@@ -130,6 +132,48 @@ $github-color: #3c4146;
 
       &:hover, &.active {
         background-color: $github-color;
+        color: #fff;
+      }
+    }
+  }
+
+  &.googleScheme {
+    border: 1px solid $google-color;
+    background-color: $google-color;
+    color: #fff;
+
+    &:hover, &.active {
+      background-color: scale-color($google-color, $lightness: 85%);
+      color: $google-color;
+    }
+
+    &.inverted {
+      background-color: #fff;
+      color: $google-color;
+
+      &:hover, &.active {
+        background-color: $google-color;
+        color: #fff;
+      }
+    }
+  }
+
+  &.facebookScheme {
+    border: 1px solid $facebook-color;
+    background-color: $facebook-color;
+    color: #fff;
+
+    &:hover, &.active {
+      background-color: scale-color($facebook-color, $lightness: 85%);
+      color: $facebook-color;
+    }
+
+    &.inverted {
+      background-color: #fff;
+      color: $facebook-color;
+
+      &:hover, &.active {
+        background-color: $facebook-color;
         color: #fff;
       }
     }

@@ -24,7 +24,7 @@ Btn.propTypes = {
   active: PropTypes.bool,
   disabled: PropTypes.bool,
   inverted: PropTypes.bool,
-  scheme: PropTypes.oneOf(['default', 'green', 'blue', 'orange', 'github'])
+  scheme: PropTypes.oneOf(['default', 'green', 'blue', 'orange', 'github', 'google', 'facebook'])
 };
 
 Btn.defaultProps = {
