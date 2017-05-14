@@ -14,6 +14,7 @@ const apiUser = new User();
 const AUTH_CURRENT = 'AUTH_CURRENT';
 const AUTH_CHANGE = 'AUTH_CHANGE';
 const AUTH_UPDATE = 'AUTH_UPDATE';
+const AUTH_UPDATE_PASSWORD = 'AUTH_UPDATE_PASSWORD';
 const AUTH_ERROR = 'AUTH_ERROR';
 const AUTH_FETCH = 'AUTH_FETCH';
 const AUTH_APPLY = 'AUTH_APPLY';
@@ -40,6 +41,8 @@ export const fetchAuth = createAction(AUTH_FETCH);
 export const changeAuth = createAction(AUTH_CHANGE);
 
 export const updateAuth = createAction(AUTH_UPDATE);
+
+export const updatePasswordAuth = createAction(AUTH_UPDATE_PASSWORD);
 
 export const currentAuth = createAction(AUTH_CURRENT);
 
@@ -88,9 +91,31 @@ function* updateUserAction() {
   yield put(currentAuth({ ...data, tmp_last_name: data.last_name, tmp_first_name: data.last_name }));
 }
 
+function* updateUserPasswordAction() {
+  const { password, password_confirmation } = yield select(getUser);
+  if (password === password_confirmation) {
+    yield put(changeAuth({ wrongPassword: false, smallPassword: false }));
+    if (password.length < 8) {
+      yield put(changeAuth({ smallPassword: true }));
+      return;
+    }
+    const data = yield apiUser.password({ password, password_confirmation });
+    yield put(currentAuth({
+      ...data,
+      tmp_last_name: data.last_name,
+      tmp_first_name: data.last_name,
+      password: '',
+      password_confirmation: ''
+    }));
+  } else {
+    yield put(changeAuth({ wrongPassword: true }));
+  }
+}
+
 function* authWatcher() {
   yield fork(takeLatest, AUTH_APPLY, applyAuthAction);
   yield fork(takeLatest, AUTH_UPDATE, updateUserAction);
+  yield fork(takeLatest, AUTH_UPDATE_PASSWORD, updateUserPasswordAction);
   yield fork(takeLatest, AUTH_FETCH, fetchAuthAction);
   yield fork(takeLatest, AUTH_AUTHENTIFICATE, authentificateAction);
   yield fork(takeLatest, AUTH_LOGOUT, logoutAction);

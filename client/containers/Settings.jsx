@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { changeAuth, updateAuth } from '../reducers/auth';
+import { changeAuth, updateAuth, updatePasswordAuth } from '../reducers/auth';
 import SettingsWidget from '../components/Settings';
 
 const state = ({ auth }) => ({ auth });
@@ -9,6 +9,7 @@ const state = ({ auth }) => ({ auth });
 const actionsDispatch = dispatch => ({
   actions: bindActionCreators({
     changeAuth,
+    updatePasswordAuth,
     updateAuth
   }, dispatch),
   dispatch
