@@ -4,7 +4,13 @@ import { call } from 'redux-saga/effects';
 
 import { authData } from './reducers/auth';
 import { modalData } from './reducers/modal';
-import { getQuestionWatcher, fetchQuestionsAction, fetchQuestionAction, resetQuestionInitial } from './reducers/questions';
+import {
+  getQuestionWatcher,
+  getQuestionsSearchWatcher,
+  fetchQuestionsAction,
+  fetchQuestionAction,
+  resetQuestionInitial
+} from './reducers/questions';
 
 const routes = {
   *'/'() {
@@ -23,6 +29,7 @@ export default function* rootSaga() {
     router(history, routes),
     authData(),
     modalData(),
-    getQuestionWatcher()
+    getQuestionWatcher(),
+    getQuestionsSearchWatcher()
   ];
 }

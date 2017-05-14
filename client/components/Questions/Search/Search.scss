@@ -1,0 +1,50 @@
+$main-color: #474f60;
+
+.Search {
+  position: relative;
+  padding: 0px 10px;
+
+  .inp {
+    padding: 5px 10px;
+    border: 1px solid #eee;
+    border-radius: 3px;
+    width: 100%;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .result {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    right: 0;
+    margin: 0 10px;
+    background-color: #fff;
+    z-index: 2;
+    border: 1px solid scale-color($main-color, $lightness: 50%);
+    border-top: none;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+
+    .resultRow {
+      display: block;
+      text-decoration: none;
+      padding: 4px 11px;
+
+      &:visited {
+        color: $main-color;
+      }
+
+      h4, p {
+        margin: 4px 0px;
+      }
+
+      &:hover {
+        background-color: #eee;
+        cursor: pointer;
+      }
+    }
+  }
+}

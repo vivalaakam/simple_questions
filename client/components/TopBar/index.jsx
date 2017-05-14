@@ -1,8 +1,14 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { Link } from 'react-router';
 import style from './TopBar.scss';
+import Search from '../../containers/Search';
 
 export default class TopBar extends PureComponent {
+  static propTypes = {
+    actions: PropTypes.object.isRequired,
+    auth: PropTypes.object.isRequired
+  }
+
   showModal = () => {
     this.props.actions.showModal({
       type: 'MODAL_AUTH'
@@ -31,9 +37,7 @@ export default class TopBar extends PureComponent {
   render() {
     return (
       <div className={style.TopBar}>
-        <div className={style.search}>
-          TopBar
-        </div>
+        <Search className={style.search} />
         <div className={style.auth}>
           {this.renderAuth()}
         </div>

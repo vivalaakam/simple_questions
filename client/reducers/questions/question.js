@@ -3,6 +3,7 @@ import { put, select, call, fork, takeLatest } from 'redux-saga/effects';
 import { createAction } from 'redux-actions';
 import { push } from 'react-router-redux';
 
+import { getQuestionsSearch, searchClearQuestions } from './search';
 import { merge } from '../../helpers/ramda';
 
 import Questions from '../../api/questions';
@@ -107,7 +108,9 @@ export function* fetchQuestionAction(id) {
 }
 
 export function* resetQuestionInitial() {
-  yield put(resetQuestion({ ...$$initialState, id: uuid4() }));
+  const { search } = yield select(getQuestionsSearch);
+  yield put(resetQuestion({ ...$$initialState, id: uuid4(), title: search }));
+  yield put(searchClearQuestions());
 }
 
 export function* getQuestionWatcher() {
