@@ -8,7 +8,6 @@ const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(assetsConf
 
 config.plugins.push(
   new ExtractTextPlugin('style.css'),
-  new webpack.optimize.DedupePlugin(),
   new webpack.optimize.UglifyJsPlugin({
     compress: {
       warnings: false
