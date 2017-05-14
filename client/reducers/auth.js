@@ -63,9 +63,7 @@ function* fetchAuthAction() {
 function* authentificateAction({ payload: { email, password } }) {
   try {
     const user = yield apiAuth.auth({ email, password });
-    yield call(applyAuth, user);
-    sw.subscribeUser(token.getRawToken());
-    yield put(resolveActionModal());
+    yield put(applyAuth(user));
   } catch (e) {
     yield put(errorAuth(e.message));
   }
