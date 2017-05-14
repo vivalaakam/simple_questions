@@ -2,7 +2,7 @@ import { router } from 'redux-saga-router';
 import { browserHistory as history } from 'react-router';
 import { call } from 'redux-saga/effects';
 
-import { authData } from './reducers/auth';
+import { authData, fetchAuth } from './reducers/auth';
 import { modalData } from './reducers/modal';
 import {
   getQuestionWatcher,
@@ -18,6 +18,9 @@ const routes = {
   },
   *'/create'() {
     yield call(resetQuestionInitial);
+  },
+  *'/settings'() {
+    yield call(fetchAuth);
   },
   *'/:id'({ id }) {
     yield call(fetchQuestionAction, id);

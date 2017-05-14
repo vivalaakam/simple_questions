@@ -4,6 +4,7 @@ import Btn from '../../UI/Btn/Btn';
 import Row from '../Row';
 import { FILTER_ALL, FILTER_COMPLETED, FILTER_ACTIVE } from '../../../reducers/questions/filter';
 import style from './List.scss';
+import LoggedIn from '../../../containers/LoggedIn';
 
 const FILTER_TITLES = {
   [FILTER_ALL]: 'All',
@@ -59,6 +60,14 @@ export default class QuestionsList extends Component {
     );
   }
 
+  renderCreateButton() {
+    return (
+      <div className={style.add}>
+        <Link to="/create">Создать вопрос</Link>
+      </div>
+    );
+  }
+
   render() {
     const { list, filter } = this.props;
     const filteredQuestions = list.filter(QUESTION_FILTERS[filter]);
@@ -71,9 +80,7 @@ export default class QuestionsList extends Component {
               {this.renderFilter()}
             </ul>
           </div>
-          <div className={style.add}>
-            <Link to="/create">Создать вопрос</Link>
-          </div>
+          <LoggedIn success={this.renderCreateButton} />
         </div>
         <div className={style.table}>
           {filteredQuestions.map(::this.renderQuestionItem)}

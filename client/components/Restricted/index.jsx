@@ -5,9 +5,6 @@ import LeftMenu from '../LeftMenu';
 export default function Restricted({ children }) {
   return (
     <div className={style.Restricted}>
-      <div className={style.menu}>
-        <LeftMenu />
-      </div>
       <div className={style.container}>
         {children}
       </div>

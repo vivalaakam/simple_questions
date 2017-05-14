@@ -1,14 +1,19 @@
-import { put, fork, takeLatest, call } from 'redux-saga/effects';
+import { put, fork, takeLatest, call, select } from 'redux-saga/effects';
 import { createAction } from 'redux-actions';
 import { resolveActionModal } from './modal';
 import { merge } from '../helpers/ramda';
 import Auth from '../api/auth';
+import User from '../api/user';
+
 import token from '../utils/token';
 import sw from '../utils/serviceWorker';
 
 const apiAuth = new Auth();
+const apiUser = new User();
 
 const AUTH_CURRENT = 'AUTH_CURRENT';
+const AUTH_CHANGE = 'AUTH_CHANGE';
+const AUTH_UPDATE = 'AUTH_UPDATE';
 const AUTH_ERROR = 'AUTH_ERROR';
 const AUTH_FETCH = 'AUTH_FETCH';
 const AUTH_APPLY = 'AUTH_APPLY';
@@ -23,12 +28,18 @@ export default function auth($$state = $$initialState, { type, payload }) {
       return payload;
     case AUTH_ERROR:
       return merge($$state, { error: payload });
+    case AUTH_CHANGE:
+      return merge($$state, payload);
     default:
       return $$state;
   }
 }
 
 export const fetchAuth = createAction(AUTH_FETCH);
+
+export const changeAuth = createAction(AUTH_CHANGE);
+
+export const updateAuth = createAction(AUTH_UPDATE);
 
 export const currentAuth = createAction(AUTH_CURRENT);
 
@@ -40,9 +51,13 @@ export const applyAuth = createAction(AUTH_APPLY);
 
 export const logout = createAction(AUTH_LOGOUT);
 
+function getUser(state) {
+  return state.auth;
+}
+
 function* fetchAuthAction() {
-  const data = yield apiAuth.current();
-  yield put(currentAuth(data));
+  const data = yield apiUser.fetch();
+  yield put(currentAuth({ ...data, tmp_last_name: data.last_name, tmp_first_name: data.last_name }));
 }
 
 function* authentificateAction({ payload: { email, password } }) {
@@ -57,7 +72,7 @@ function* authentificateAction({ payload: { email, password } }) {
 }
 
 function* applyAuthAction({ payload }) {
-  yield put(currentAuth(payload));
+  yield put(currentAuth({ ...payload, tmp_last_name: payload.last_name, tmp_first_name: payload.first_name }));
   sw.subscribeUser(token.getRawToken());
   yield put(resolveActionModal());
 }
@@ -69,8 +84,15 @@ function* logoutAction() {
   token.removeToken();
 }
 
+function* updateUserAction() {
+  const { tmp_first_name, tmp_last_name } = yield select(getUser);
+  const data = yield apiUser.update({ first_name: tmp_first_name, last_name: tmp_last_name });
+  yield put(currentAuth({ ...data, tmp_last_name: data.last_name, tmp_first_name: data.last_name }));
+}
+
 function* authWatcher() {
   yield fork(takeLatest, AUTH_APPLY, applyAuthAction);
+  yield fork(takeLatest, AUTH_UPDATE, updateUserAction);
   yield fork(takeLatest, AUTH_FETCH, fetchAuthAction);
   yield fork(takeLatest, AUTH_AUTHENTIFICATE, authentificateAction);
   yield fork(takeLatest, AUTH_LOGOUT, logoutAction);

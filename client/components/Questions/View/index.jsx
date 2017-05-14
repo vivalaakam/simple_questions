@@ -154,7 +154,7 @@ export default class QuestionView extends PureComponent {
     const { question } = this.props;
 
     if (!question.answers) {
-      return null
+      return null;
     }
 
     return question.answers.map(answer => (

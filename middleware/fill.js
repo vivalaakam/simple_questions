@@ -11,7 +11,7 @@ export default async function fill(req, res, next) {
       });
 
       const respAuth = await auth.json();
-      initialState.auth = respAuth;
+      initialState.auth = { ...respAuth, tmp_last_name: respAuth.last_name, tmp_first_name: respAuth.first_name };
     } catch (e) {
       console.log(e.message); // eslint-disable-line
     }
@@ -19,8 +19,10 @@ export default async function fill(req, res, next) {
 
   switch (req.originalUrl) {
     case '/': {
-      const respList = await fetch(`${process.env.PROXY_SERVER}/questions`);
-      const list = await respList.json();
+      const respList = await
+      fetch(`${process.env.PROXY_SERVER}/questions`);
+      const list = await
+      respList.json();
       initialState.questions = { list };
       break;
     }

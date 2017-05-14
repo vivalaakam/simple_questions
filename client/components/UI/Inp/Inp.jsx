@@ -6,7 +6,7 @@ export default function Inp({ onChange, onBlur, onFocus, onKeyDown, value, link,
     <input
       className={style.Inp}
       ref={c => (link(c))}
-      {...{ name, value, type, placeholder, onChange, onBlur, onFocus, onKeyDown }}
+      {...{ name, value, type, placeholder, onChange, onBlur, onFocus, onKeyDown, id: name }}
     />
   );
 }
