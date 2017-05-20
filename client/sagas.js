@@ -22,7 +22,7 @@ const routes = {
     yield call(resetQuestionInitial);
   },
   *'/settings'() {
-    yield call(fetchAuth);
+    yield call(fetchAuth, true);
   },
   *'/:id'({ id }) {
     yield call(fetchQuestionAction, id);

@@ -6,7 +6,7 @@ export default async function fill(req, res, next) {
   const initialState = {};
   if (req.cookies && req.cookies.Authorization) {
     try {
-      const auth = await fetch(`${process.env.PROXY_SERVER}/auth`, {
+      const auth = await fetch(`${process.env.PROXY_SERVER}/user`, {
         headers: {
           Authorization: req.cookies.Authorization
         }
@@ -34,10 +34,21 @@ export default async function fill(req, res, next) {
       }, {});
       break;
     }
+
     case '/create':
       break;
+
     case '/settings':
+      const auth = await fetch(`${process.env.PROXY_SERVER}/user?full=true`, {
+        headers: {
+          Authorization: req.cookies.Authorization
+        }
+      });
+
+      const respAuth = await auth.json();
+      initialState.auth = { ...respAuth, tmp_last_name: respAuth.last_name, tmp_first_name: respAuth.first_name };
       break;
+
     default: {
       const regex = /^\/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$/i;
       const m = regex.exec(req.originalUrl);

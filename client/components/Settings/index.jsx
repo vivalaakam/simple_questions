@@ -1,6 +1,9 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { Btn, Inp, TextArea } from '../UI';
+import classnames from 'classnames';
+import { Btn, Inp } from '../UI';
 import style from './Settings.scss';
+
+import userToken from '../../utils/token';
 
 export default class QuestionView extends PureComponent {
   static propTypes = {
@@ -74,6 +77,35 @@ export default class QuestionView extends PureComponent {
         </ul>
       </div>
     );
+  }
+
+  renderSessions() {
+    if (!(this.props.auth.tokens && this.props.auth.tokens.length)) {
+      return null;
+    }
+
+    const currentToken = userToken.getToken().split(' ')[1];
+
+    return this.props.auth.tokens.map((token) => {
+      const onClickRemove = () => {
+        this.props.actions.tokenRemove(token);
+      };
+
+      const className = classnames({
+        [style.currentToken]: currentToken === token.token
+      });
+
+      return (
+        <div className={style.row} key={token.id}>
+          <div className={style.section}>
+            <p className={className}>{token.user_agent}</p>
+          </div>
+          <div className={style.section_button}>
+            <Btn onClick={onClickRemove}>Удалить сессию</Btn>
+          </div>
+        </div>
+      );
+    });
   }
 
   render() {
@@ -155,6 +187,10 @@ export default class QuestionView extends PureComponent {
         <div className={style.row}>
           <Btn onClick={this.props.actions.updatePasswordAuth}>Обновить пароль</Btn>
         </div>
+        <div className={style.titleSection}>
+          <h3>Активные сесии</h3>
+        </div>
+        {this.renderSessions()}
       </div>
     );
   }

@@ -20,6 +20,8 @@ const AUTH_FETCH = 'AUTH_FETCH';
 const AUTH_APPLY = 'AUTH_APPLY';
 const AUTH_AUTHENTIFICATE = 'AUTH_AUTHENTIFICATE';
 const AUTH_LOGOUT = 'AUTH_LOGOUT';
+const AUTH_TOKEN_REMOVE = 'AUTH_TOKEN_REMOVE';
+const AUTH_NOTIFICATION_REMOVE = 'AUTH_NOTIFICATION_REMOVE';
 
 const $$initialState = {};
 
@@ -54,12 +56,16 @@ export const applyAuth = createAction(AUTH_APPLY);
 
 export const logout = createAction(AUTH_LOGOUT);
 
+export const tokenRemove = createAction(AUTH_TOKEN_REMOVE);
+
+export const notificationRemove = createAction(AUTH_NOTIFICATION_REMOVE);
+
 function getUser(state) {
   return state.auth;
 }
 
-function* fetchAuthAction() {
-  const data = yield apiUser.fetch();
+function* fetchAuthAction({ payload }) {
+  const data = yield apiUser.fetch(payload);
   yield put(currentAuth({ ...data, tmp_last_name: data.last_name, tmp_first_name: data.last_name }));
 }
 
@@ -91,6 +97,17 @@ function* updateUserAction() {
   yield put(currentAuth({ ...data, tmp_last_name: data.last_name, tmp_first_name: data.last_name }));
 }
 
+function* removeTokenAction({ payload }) {
+  const data = yield apiUser.removeToken(payload.id);
+  console.log(data);
+  yield put(currentAuth({ ...data, tmp_last_name: data.last_name, tmp_first_name: data.last_name }));
+}
+
+function* removeNotificationAction({ payload }) {
+  const data = yield apiUser.removeNotification(payload.id);
+  yield put(currentAuth({ ...data, tmp_last_name: data.last_name, tmp_first_name: data.last_name }));
+}
+
 function* updateUserPasswordAction() {
   const { password, password_confirmation } = yield select(getUser);
   if (password === password_confirmation) {
@@ -119,6 +136,8 @@ function* authWatcher() {
   yield fork(takeLatest, AUTH_FETCH, fetchAuthAction);
   yield fork(takeLatest, AUTH_AUTHENTIFICATE, authentificateAction);
   yield fork(takeLatest, AUTH_LOGOUT, logoutAction);
+  yield fork(takeLatest, AUTH_TOKEN_REMOVE, removeTokenAction);
+  yield fork(takeLatest, AUTH_NOTIFICATION_REMOVE, removeNotificationAction);
 }
 
 export function* authData() {
