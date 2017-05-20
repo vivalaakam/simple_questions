@@ -14,6 +14,15 @@ export default async function fill(req, res, next) {
 
       const respAuth = await auth.json();
       initialState.auth = { ...respAuth, tmp_last_name: respAuth.last_name, tmp_first_name: respAuth.first_name };
+
+      const notificationsResp = await fetch(`${process.env.PROXY_SERVER}/notifications`, {
+        headers: {
+          Authorization: req.cookies.Authorization
+        }
+      });
+
+      const notifications = await notificationsResp.json();
+      initialState.notifications = notifications;
     } catch (e) {
       console.log(e.message); // eslint-disable-line
     }

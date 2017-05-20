@@ -3,18 +3,19 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import QuestionsSearchWidget from '../components/Questions/Search';
-import { searchQuestions, searchToggleQuestions, searchClearQuestions } from '../reducers/questions/search';
+import { searchApp, searchToggleApp, searchClearApp } from '../reducers/app';
 
 const mapStateToProps = state => ({
   search: state.questions.search,
+  app: state.app
 });
 
 const actionsDispatch = dispatch => ({
   actions: bindActionCreators({
-    searchQuestions,
-    searchClearQuestions,
+    searchApp,
+    searchClearApp,
     searchFocusQuestions() {
-      return dispatch(searchToggleQuestions(true));
+      return dispatch(searchToggleApp(true));
     }
   }, dispatch),
   dispatch
@@ -27,7 +28,7 @@ function QuestionsSearchContainer(props) {
 }
 
 QuestionsSearchContainer.propTypes = {
-  search: PropTypes.object.isRequired,
+  search: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired
 };
 

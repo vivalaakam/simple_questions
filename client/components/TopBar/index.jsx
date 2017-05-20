@@ -1,7 +1,9 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { Link } from 'react-router';
+import classnames from 'classnames';
 import style from './TopBar.scss';
 import Search from '../../containers/Search';
+import NotificationsWidget from '../../containers/NotificationsWidget';
 import LoggedIn from '../../containers/LoggedIn';
 
 export default class TopBar extends PureComponent {
@@ -20,12 +22,15 @@ export default class TopBar extends PureComponent {
   renderAuthSuccess = () => {
     const { auth } = this.props;
     return (
-      <div>
-        <Link className={style.link} to="/settings">{auth.name}</Link>
-        <br />
-        <button className={style.actionLink} onClick={this.props.actions.logout}>
-          Выйти
-        </button>
+      <div className={style.authInner}>
+        <NotificationsWidget />
+        <div className={style.authMain}>
+          <Link className={style.link} to="/settings">{auth.name}</Link>
+          <br />
+          <button className={style.actionLink} onClick={this.props.actions.logout}>
+            Выйти
+          </button>
+        </div>
       </div>
     );
   };
@@ -47,7 +52,7 @@ export default class TopBar extends PureComponent {
 
   renderGoBack() {
     const { routing } = this.props;
-    if(!routing.locationBeforeTransitions) {
+    if (!routing.locationBeforeTransitions) {
       return null;
     }
     if (routing.locationBeforeTransitions.pathname === '/') {

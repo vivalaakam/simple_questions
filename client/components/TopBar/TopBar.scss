@@ -16,6 +16,14 @@ $main-color: #474f60;
     flex-basis: 200px;
   }
 
+  .authInner {
+    display: flex;
+  }
+
+  .authMain {
+    flex: 1 0 0;
+  }
+
   .goBack {
     flex-basis: 200px;
     padding: 12px 0px;

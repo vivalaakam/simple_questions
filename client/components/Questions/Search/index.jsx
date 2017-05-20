@@ -9,14 +9,15 @@ export { style };
 
 export default class QuestionsSearch extends PureComponent {
   static propTypes = {
-    search: PropTypes.object.isRequired,
+    search: PropTypes.array.isRequired,
+    app: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
     className: PropTypes.string
   };
 
 
   onChangeSearch = () => {
-    this.props.actions.searchQuestions(this.search.value);
+    this.props.actions.searchApp(this.search.value);
   };
 
   setRefSearch = (link) => {
@@ -24,17 +25,17 @@ export default class QuestionsSearch extends PureComponent {
   };
 
   renderResults() {
-    if (!(this.props.search.isActive && this.props.search.search.length !== 0)) {
+    if (!(this.props.app.searchActive && this.props.app.search.length !== 0)) {
       return null;
     }
 
-    const results = this.props.search.data.map((question) => {
+    const results = this.props.search.map((question) => {
       return (
         <Link
           className={style.resultRow}
           key={question.id}
           to={`/${question.id}`}
-          onClick={this.props.actions.searchClearQuestions}
+          onClick={this.props.actions.searchClearApp}
         >
           <h4>{question.title}</h4>
           <p>{question.text}</p>
@@ -47,7 +48,7 @@ export default class QuestionsSearch extends PureComponent {
         {results}
         <Link className={style.resultRow} to="/create">
           <p>
-            Создать вопрос <b>{this.props.search.search}</b>
+            Создать вопрос <b>{this.props.app.search}</b>
           </p>
         </Link>
       </div>
@@ -65,7 +66,7 @@ export default class QuestionsSearch extends PureComponent {
           name="search"
           placeholder="Поиск"
           onFocus={this.props.actions.searchFocusQuestions}
-          value={this.props.search.search}
+          value={this.props.app.search}
           onChange={this.onChangeSearch}
           link={this.setRefSearch}
         />

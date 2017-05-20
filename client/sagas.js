@@ -5,6 +5,7 @@ import { call } from 'redux-saga/effects';
 import { usersWatcher } from './reducers/users';
 import { notificationsData } from './reducers/notifications';
 import { authData, fetchAuthAction } from './reducers/auth';
+import { getAppWatcher } from './reducers/app';
 import { modalData } from './reducers/modal';
 import {
   getQuestionWatcher,
@@ -37,6 +38,7 @@ export default function* rootSaga() {
     usersWatcher(),
     notificationsData(),
     getQuestionWatcher(),
-    getQuestionsSearchWatcher()
+    getQuestionsSearchWatcher(),
+    getAppWatcher()
   ];
 }

@@ -8,26 +8,28 @@ export default class NotificationsWidget extends Component {
 
   onClose = (notification) => {
     const { actions } = this.props;
-    actions.removeNotification(notification);
-  }
+    actions.closeNotification(notification);
+  };
 
   redirect = (notification) => {
     const { actions, router } = this.props;
-    actions.removeNotification(notification);
-    router.push(`/${notification.id}`);
-  }
+    actions.closeNotification(notification);
+    router.push(`/${notification.source_id}`);
+  };
 
   notifications() {
     const { notifications } = this.props;
 
-    return notifications.map((notification, i) => (
-      <Notification
-        notification={notification}
-        key={notification.uid}
-        onClose={::this.onClose}
-        redirect={this.redirect}
-      />
-    ));
+    return notifications
+      .filter(notification => notification.is_new)
+      .map((notification) => (
+        <Notification
+          notification={notification}
+          key={notification.id}
+          onClose={::this.onClose}
+          redirect={this.redirect}
+        />
+      ));
   }
 
   render() {

@@ -32,6 +32,7 @@ $main-color: #474f60;
       display: block;
       text-decoration: none;
       padding: 4px 11px;
+      color: $main-color;
 
       &:visited {
         color: $main-color;

@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { removeNotification } from '../reducers/notifications';
+import { closeNotification } from '../reducers/notifications';
 
 import NotificationsWidget from '../components/Notifications';
 
@@ -11,7 +11,7 @@ const state = ({ notifications }) => ({
 });
 
 const actions = (dispatch) => ({
-  actions: bindActionCreators({ removeNotification }, dispatch)
+  actions: bindActionCreators({ closeNotification }, dispatch)
 });
 
 const Notifications = (props) => {

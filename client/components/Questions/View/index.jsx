@@ -62,6 +62,10 @@ export default class QuestionView extends PureComponent {
     }
 
     if (question.user_id !== auth.id) {
+      if (!question.subscription_ids) {
+        return null;
+      }
+
       const subscribed = question.subscription_ids.indexOf(auth.id) > -1;
 
       if (subscribed) {

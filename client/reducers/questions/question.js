@@ -5,7 +5,8 @@ import { createAction } from 'redux-actions';
 import { push } from 'react-router-redux';
 
 import { usersListAction } from '../users';
-import { getQuestionsSearch, searchClearQuestions } from './search';
+import { getQuestionsSearch } from './search';
+import { searchClearApp } from '../app';
 import { merge } from '../../helpers/ramda';
 
 import Questions from '../../api/questions';
@@ -144,7 +145,7 @@ export function* fetchQuestionAction(id) {
 export function* resetQuestionInitial() {
   const { search } = yield select(getQuestionsSearch);
   yield put(resetQuestion({ ...$$initialState, id: uuid4(), title: search }));
-  yield put(searchClearQuestions());
+  yield put(searchClearApp());
 }
 
 export function* getQuestionWatcher() {

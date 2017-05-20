@@ -12,4 +12,12 @@ export default class Notifications extends Rest {
   unsubscribe() {
     return this.deleteQuery(this.base_url);
   }
+
+  remove(id) {
+    return this.deleteQuery(`${this.base_url}/${id}`);
+  }
+
+  clear() {
+    return this.postQuery(`${this.base_url}/clear`);
+  }
 }
