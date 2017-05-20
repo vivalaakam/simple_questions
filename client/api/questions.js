@@ -17,6 +17,14 @@ export default class Questions extends Rest {
     return this.postQuery(`${this.base_url}/${id}/close/${answer}`);
   }
 
+  subscribe(id) {
+    return this.postQuery(`${this.base_url}/${id}/subscribe`);
+  }
+
+  unsubscribe(id) {
+    return this.postQuery(`${this.base_url}/${id}/unsubscribe`);
+  }
+
   search(substr) {
     return this.getQuery(`${this.base_url}?search=${substr}`);
   }

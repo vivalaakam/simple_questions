@@ -57,8 +57,26 @@ export default class QuestionView extends PureComponent {
   renderAdditionButton() {
     const { auth, question } = this.props;
 
-    if (question.user_id !== auth.id || question.is_answered) {
+    if (question.is_answered) {
       return null;
+    }
+
+    if (question.user_id !== auth.id) {
+      const subscribed = question.subscription_ids.indexOf(auth.id) > -1;
+
+      if (subscribed) {
+        return (
+          <div className={style.additionButton}>
+            <Btn onClick={this.props.actions.unsubscribeQuestion}>Отписаться</Btn>
+          </div>
+        );
+      }
+
+      return (
+        <div className={style.additionButton}>
+          <Btn onClick={this.props.actions.subscribeQuestion}>Подписаться</Btn>
+        </div>
+      );
     }
 
     return (

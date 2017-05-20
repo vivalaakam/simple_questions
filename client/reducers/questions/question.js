@@ -19,6 +19,8 @@ const QUESTION_CREATE = 'QUESTION_CREATE';
 const QUESTION_UPDATE = 'QUESTION_UPDATE';
 const QUESTION_RESET = 'QUESTION_RESET';
 const QUESTION_ADDITION_TOGGLE = 'QUESTION_ADDITION_TOGGLE';
+const QUESTION_SUBSCRIBE = 'QUESTION_SUBSCRIBE';
+const QUESTION_UNSUBSCRIBE = 'QUESTION_UNSUBSCRIBE';
 const QUESTION_ADDITION_CREATE = 'QUESTION_ADDITION_CREATE';
 const QUESTION_ANSWER_CREATE = 'QUESTION_ANSWER_CREATE';
 const QUESTION_CLOSE = 'QUESTION_CLOSE';
@@ -48,6 +50,10 @@ export const resetQuestion = createAction(QUESTION_RESET);
 export const changeQuestion = createAction(QUESTION_CHANGE);
 
 export const toggleAdditionQuestion = createAction(QUESTION_ADDITION_TOGGLE);
+
+export const subscribeQuestion = createAction(QUESTION_SUBSCRIBE);
+
+export const unsubscribeQuestion = createAction(QUESTION_UNSUBSCRIBE);
 
 export const createAdditionQuestion = createAction(QUESTION_ADDITION_CREATE);
 
@@ -100,7 +106,19 @@ function* createAnswerQuestionAction() {
 function* closeQuestionAction({ payload }) {
   const { id } = yield select(getQuestion);
   const questionData = yield apiQuestions.close(id, payload.id);
-  yield put(resetQuestion({ ...questionData }));
+  yield put(resetQuestion(questionData));
+}
+
+function* subscribeQuestionAction() {
+  const { id } = yield select(getQuestion);
+  const questionData = yield apiQuestions.subscribe(id);
+  yield put(resetQuestion(questionData));
+}
+
+function* unsubscribeQuestionAction() {
+  const { id } = yield select(getQuestion);
+  const questionData = yield apiQuestions.unsubscribe(id);
+  yield put(resetQuestion(questionData));
 }
 
 function* deleteQuestionAction({ payload: { id } }) {
@@ -134,6 +152,8 @@ export function* getQuestionWatcher() {
   yield takeLatest(QUESTION_UPDATE, updateQuestionAction);
   yield takeLatest(QUESTION_DELETE, deleteQuestionAction);
   yield takeLatest(QUESTION_ADDITION_TOGGLE, toggleAdditionQuestionAction);
+  yield takeLatest(QUESTION_SUBSCRIBE, subscribeQuestionAction);
+  yield takeLatest(QUESTION_UNSUBSCRIBE, unsubscribeQuestionAction);
   yield takeLatest(QUESTION_ADDITION_CREATE, createAdditionQuestionAction);
   yield takeLatest(QUESTION_ANSWER_CREATE, createAnswerQuestionAction);
   yield takeLatest(QUESTION_CLOSE, closeQuestionAction);

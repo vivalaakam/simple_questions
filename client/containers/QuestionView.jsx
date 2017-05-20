@@ -7,6 +7,8 @@ import {
   createAdditionQuestion,
   closeQuestion,
   changeQuestion,
+  subscribeQuestion,
+  unsubscribeQuestion,
   createAnswerQuestion
 } from '../reducers/questions/question';
 
@@ -23,6 +25,8 @@ const actionsDispatch = dispatch => ({
     toggleAdditionQuestion,
     createAdditionQuestion,
     createAnswerQuestion,
+    subscribeQuestion,
+    unsubscribeQuestion,
     closeQuestion,
     changeQuestion
   }, dispatch),
