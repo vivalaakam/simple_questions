@@ -4,7 +4,7 @@ import { call } from 'redux-saga/effects';
 
 import { usersWatcher } from './reducers/users';
 import { notificationsData } from './reducers/notifications';
-import { authData, fetchAuth } from './reducers/auth';
+import { authData, fetchAuthAction } from './reducers/auth';
 import { modalData } from './reducers/modal';
 import {
   getQuestionWatcher,
@@ -22,7 +22,7 @@ const routes = {
     yield call(resetQuestionInitial);
   },
   *'/settings'() {
-    yield call(fetchAuth, true);
+    yield call(fetchAuthAction, { payload: true });
   },
   *'/:id'({ id }) {
     yield call(fetchQuestionAction, id);

@@ -45,7 +45,6 @@ class PushManager {
     if (!this.serviceWorker) {
       return;
     }
-
     this.serviceWorker.pushManager.subscribe({
       userVisibleOnly: true,
       applicationServerKey: urlB64ToUint8Array(process.env.VAPID_PUBLIC_KEY)

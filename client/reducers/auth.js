@@ -64,7 +64,7 @@ function getUser(state) {
   return state.auth;
 }
 
-function* fetchAuthAction({ payload }) {
+export function* fetchAuthAction({ payload }) {
   const data = yield apiUser.fetch(payload);
   yield put(currentAuth({ ...data, tmp_last_name: data.last_name, tmp_first_name: data.last_name }));
 }
@@ -99,7 +99,6 @@ function* updateUserAction() {
 
 function* removeTokenAction({ payload }) {
   const data = yield apiUser.removeToken(payload.id);
-  console.log(data);
   yield put(currentAuth({ ...data, tmp_last_name: data.last_name, tmp_first_name: data.last_name }));
 }
 

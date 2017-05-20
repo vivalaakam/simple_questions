@@ -91,6 +91,22 @@ export default class QuestionView extends PureComponent {
         this.props.actions.tokenRemove(token);
       };
 
+      const notification = () => {
+        if (!token.has_notification) {
+          return null;
+        }
+
+        const onClickNotification = () => {
+          this.props.actions.notificationRemove(token);
+        };
+
+        return (
+          <div className={style.section_button}>
+            <Btn onClick={onClickNotification}>Отключить уведомления</Btn>
+          </div>
+        );
+      };
+
       const className = classnames({
         [style.currentToken]: currentToken === token.token
       });
@@ -100,6 +116,7 @@ export default class QuestionView extends PureComponent {
           <div className={style.section}>
             <p className={className}>{token.user_agent}</p>
           </div>
+          {notification()}
           <div className={style.section_button}>
             <Btn onClick={onClickRemove}>Удалить сессию</Btn>
           </div>
