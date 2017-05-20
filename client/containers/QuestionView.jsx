@@ -13,6 +13,7 @@ import QuestionViewWidget from '../components/Questions/View';
 
 const mapStateToProps = state => ({
   question: state.questions.question,
+  users: state.users,
   auth: state.auth
 });
 
@@ -26,16 +27,21 @@ const actionsDispatch = dispatch => ({
   dispatch
 });
 
-function QuestionCreateContainer({ question, auth, actions }) {
+function QuestionCreateContainer({ question, auth, actions, users }) {
   return (
-    <QuestionViewWidget {...{ question, auth, actions }} />
+    <QuestionViewWidget {...{ question, auth, actions, users }} />
   );
 }
 
 QuestionCreateContainer.propTypes = {
   actions: PropTypes.object.isRequired,
   question: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  users: PropTypes.object
+};
+
+QuestionCreateContainer.defaultProps = {
+  users: {}
 };
 
 export default connect(mapStateToProps, actionsDispatch)(QuestionCreateContainer);

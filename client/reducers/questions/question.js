@@ -1,8 +1,10 @@
 import uuid4 from 'uuid/v4';
+import _ from 'lodash';
 import { put, select, call, fork, takeLatest } from 'redux-saga/effects';
 import { createAction } from 'redux-actions';
 import { push } from 'react-router-redux';
 
+import { usersListAction } from '../users';
 import { getQuestionsSearch, searchClearQuestions } from './search';
 import { merge } from '../../helpers/ramda';
 
@@ -104,6 +106,11 @@ function* toggleAdditionQuestionAction() {
 
 export function* fetchQuestionAction(id) {
   const questionData = yield apiQuestions.fetch(id);
+
+  const users = questionData.answers.map(answer => answer.user_id);
+  users.push(questionData.user_id);
+  yield call(usersListAction, { payload: _.uniq(users) });
+
   yield put(resetQuestion({ ...questionData, isNew: false, additionText: '', answerText: '' }));
 }
 

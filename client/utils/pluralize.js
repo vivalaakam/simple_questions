@@ -1,7 +1,7 @@
 /**
  * Pluralize number
  * @param {number} num
- * @param {array} titles
+ * @param {string[]} titles
  * @returns {string}
  */
 export default function pluralize(num, titles) {

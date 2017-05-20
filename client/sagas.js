@@ -2,6 +2,7 @@ import { router } from 'redux-saga-router';
 import { browserHistory as history } from 'react-router';
 import { call } from 'redux-saga/effects';
 
+import { usersWatcher } from './reducers/users';
 import { notificationsData } from './reducers/notifications';
 import { authData, fetchAuth } from './reducers/auth';
 import { modalData } from './reducers/modal';
@@ -33,6 +34,7 @@ export default function* rootSaga() {
     router(history, routes),
     authData(),
     modalData(),
+    usersWatcher(),
     notificationsData(),
     getQuestionWatcher(),
     getQuestionsSearchWatcher()

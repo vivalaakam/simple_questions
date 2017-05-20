@@ -9,7 +9,7 @@ moment.locale('ru');
 
 export { style };
 
-export default function QuestionsRow({ question }) {
+export default function QuestionsRow({ question, user }) {
   const className = classnames(style.QuestionsRow, { [style.completed]: question.completed });
 
   const answers = () => {
@@ -22,12 +22,17 @@ export default function QuestionsRow({ question }) {
     const count = pluralize(question.answers_count, ['ответ', 'ответа', 'ответов']);
 
     return (
-      <p className={style.count}>{question.answers_count} {count}. Последний {moment(question.last_answer.created_at).fromNow()}</p>
+      <p className={style.count}>
+        {question.answers_count} {count}. Последний {moment(question.last_answer.created_at).fromNow()}
+      </p>
     );
-  }
+  };
+
   return (
     <div className={className}>
       <Link className={style.mainCell} to={`/${question.id}`}>
+        <p className={style.count}>{user.name}</p>
+        <p className={style.count}>{moment(question.created_at).fromNow()}</p>
         <h3>{question.title}</h3>
         <p>{question.text}</p>
         {answers()}
@@ -37,5 +42,6 @@ export default function QuestionsRow({ question }) {
 }
 
 QuestionsRow.propTypes = {
-  question: PropTypes.object.isRequired
+  question: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 };

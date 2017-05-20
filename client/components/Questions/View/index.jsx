@@ -9,6 +9,7 @@ moment.locale('ru');
 export default class QuestionView extends PureComponent {
   static propTypes = {
     question: PropTypes.object.isRequired,
+    users: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired
   };
@@ -116,12 +117,12 @@ export default class QuestionView extends PureComponent {
       );
     }
 
-    const length = question.answers.length
+    const length = question.answers.length;
 
     const count = pluralize(length, ['ответ', 'ответа', 'ответов']);
 
     return (
-      <h2>{question.answers.length} {count} на вопрос</h2>
+      <h2>{length} {count} на вопрос</h2>
     );
   }
 
@@ -151,7 +152,7 @@ export default class QuestionView extends PureComponent {
   }
 
   renderComments() {
-    const { question } = this.props;
+    const { question, users } = this.props;
 
     if (!question.answers) {
       return null;
@@ -159,6 +160,7 @@ export default class QuestionView extends PureComponent {
 
     return question.answers.map(answer => (
       <div key={answer.id} className={style.answer}>
+        <p className={style.addition}>{(users[answer.user_id] || {}).name}</p>
         <p className={style.addition}>{moment(answer.created_at).fromNow()}</p>
         <p>{answer.text}</p>
       </div>

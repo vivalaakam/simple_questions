@@ -1,6 +1,7 @@
 import { put, call, fork, takeLatest } from 'redux-saga/effects';
 import { createAction } from 'redux-actions';
-
+import _ from 'lodash'
+import { usersListAction } from '../users';
 import Questions from '../../api/questions';
 
 const apiQuestions = new Questions();
@@ -26,6 +27,8 @@ export const resetQuestions = createAction(QUESTIONS_RESET);
 
 export function* fetchQuestionsAction() {
   const questionsList = yield apiQuestions.all();
+  const users = questionsList.map(question => question.user_id);
+  yield call(usersListAction, { payload: _.uniq(users) });
   yield put(resetQuestions(questionsList));
 }
 

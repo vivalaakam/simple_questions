@@ -7,7 +7,8 @@ import { setFilter } from '../reducers/questions/filter';
 import { showModal } from '../reducers/modal';
 
 const mapStateToProps = state => ({
-  questions: state.questions
+  questions: state.questions,
+  users: state.users
 });
 
 const actionsDispatch = dispatch => ({
@@ -18,15 +19,21 @@ const actionsDispatch = dispatch => ({
   dispatch
 });
 
-function QuestionsContainer({ questions: { list, filter }, actions }) {
+function QuestionsContainer({ questions: { list, filter }, users, actions }) {
   return (
-    <QuestionsWidget {...{ list, filter, actions }} />
+    <QuestionsWidget {...{ list, filter, actions, users }} />
   );
 }
 
 QuestionsContainer.propTypes = {
   actions: PropTypes.object.isRequired,
-  questions: PropTypes.object
+  questions: PropTypes.object,
+  users: PropTypes.object
 };
+
+QuestionsContainer.defaultProps = {
+  questions: {},
+  users: {}
+}
 
 export default connect(mapStateToProps, actionsDispatch)(QuestionsContainer);

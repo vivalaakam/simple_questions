@@ -22,7 +22,8 @@ export default class QuestionsList extends Component {
   static propTypes = {
     actions: PropTypes.object.isRequired,
     list: PropTypes.array.isRequired,
-    filter: PropTypes.symbol.isRequired
+    filter: PropTypes.symbol.isRequired,
+    users: PropTypes.object.isRequired
   };
 
   handleShow(filter) {
@@ -44,9 +45,9 @@ export default class QuestionsList extends Component {
     });
   }
 
-  renderQuestionItem(question) {
-    return <Row key={question.id} question={question} />;
-  }
+  renderQuestionItem = (question) => {
+    return <Row key={question.id} question={question} user={this.props.users[question.user_id]} />;
+  };
 
   renderQuestionCount(completed) {
     const { list } = this.props;
