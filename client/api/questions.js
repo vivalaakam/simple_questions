@@ -13,6 +13,10 @@ export default class Questions extends Rest {
     return this.postQuery(`${this.base_url}/${id}/answer`, { text });
   }
 
+  close(id, answer) {
+    return this.postQuery(`${this.base_url}/${id}/close/${answer}`);
+  }
+
   search(substr) {
     return this.getQuery(`${this.base_url}?search=${substr}`);
   }

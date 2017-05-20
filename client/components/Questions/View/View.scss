@@ -1,3 +1,5 @@
+$main-color: #474f60;
+
 .QuestionView {
   flex: 1;
 
@@ -41,6 +43,12 @@
     border-radius: 5px;
     padding: 5px 10px;
     margin-bottom: 25px;
-    box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.1);
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.1);
+  }
+
+  .isAnswer {
+    background-color: scale-color($main-color, $lightness: 85%);
+    border: 1px solid scale-color($main-color, $lightness: 65%);
+    color: $main-color;
   }
 }

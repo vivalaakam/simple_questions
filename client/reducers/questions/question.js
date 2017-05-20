@@ -21,6 +21,7 @@ const QUESTION_RESET = 'QUESTION_RESET';
 const QUESTION_ADDITION_TOGGLE = 'QUESTION_ADDITION_TOGGLE';
 const QUESTION_ADDITION_CREATE = 'QUESTION_ADDITION_CREATE';
 const QUESTION_ANSWER_CREATE = 'QUESTION_ANSWER_CREATE';
+const QUESTION_CLOSE = 'QUESTION_CLOSE';
 
 export const $$initialState = {
   id: '',
@@ -51,6 +52,8 @@ export const toggleAdditionQuestion = createAction(QUESTION_ADDITION_TOGGLE);
 export const createAdditionQuestion = createAction(QUESTION_ADDITION_CREATE);
 
 export const createAnswerQuestion = createAction(QUESTION_ANSWER_CREATE);
+
+export const closeQuestion = createAction(QUESTION_CLOSE);
 
 export default function question($$state = $$initialState, { type, payload }) {
   switch (type) {
@@ -94,6 +97,12 @@ function* createAnswerQuestionAction() {
   yield put(resetQuestion({ ...questionData, answerText: '' }));
 }
 
+function* closeQuestionAction({ payload }) {
+  const { id } = yield select(getQuestion);
+  const questionData = yield apiQuestions.close(id, payload.id);
+  yield put(resetQuestion({ ...questionData }));
+}
+
 function* deleteQuestionAction({ payload: { id } }) {
   yield apiQuestions.remove(id);
   yield put(destroyQuestion(id));
@@ -127,4 +136,5 @@ export function* getQuestionWatcher() {
   yield takeLatest(QUESTION_ADDITION_TOGGLE, toggleAdditionQuestionAction);
   yield takeLatest(QUESTION_ADDITION_CREATE, createAdditionQuestionAction);
   yield takeLatest(QUESTION_ANSWER_CREATE, createAnswerQuestionAction);
+  yield takeLatest(QUESTION_CLOSE, closeQuestionAction);
 }

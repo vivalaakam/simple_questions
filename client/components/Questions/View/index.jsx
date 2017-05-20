@@ -1,8 +1,9 @@
 import React, { PureComponent, PropTypes } from 'react';
 import moment from 'moment';
+import classnames from 'classnames';
 import { Btn, Inp, TextArea } from '../../UI';
 import style from './View.scss';
-import pluralize from '../../../utils/pluralize'
+import pluralize from '../../../utils/pluralize';
 
 moment.locale('ru');
 
@@ -28,7 +29,7 @@ export default class QuestionView extends PureComponent {
 
   onClickSaveAnswer = () => {
     this.props.actions.createAnswerQuestion();
-  }
+  };
 
   onChangeAdditionText = () => {
     this.props.actions.changeQuestion({
@@ -56,7 +57,7 @@ export default class QuestionView extends PureComponent {
   renderAdditionButton() {
     const { auth, question } = this.props;
 
-    if (question.user_id !== auth.id) {
+    if (question.user_id !== auth.id || question.is_answered) {
       return null;
     }
 
@@ -70,7 +71,7 @@ export default class QuestionView extends PureComponent {
   renderAdditionForm() {
     const { question } = this.props;
 
-    if (!question.addition) {
+    if (!question.addition || question.is_answered) {
       return null;
     }
 
@@ -128,7 +129,7 @@ export default class QuestionView extends PureComponent {
 
   renderCommentForm() {
     const { auth, question } = this.props;
-    if (!auth.id) {
+    if (!auth.id || question.is_answered || question.user_id === auth.id) {
       return null;
     }
 
@@ -159,12 +160,29 @@ export default class QuestionView extends PureComponent {
     }
 
     return question.answers.map(answer => (
-      <div key={answer.id} className={style.answer}>
+      <div key={answer.id} className={classnames(style.answer, { [style.isAnswer]: answer.is_answer })}>
         <p className={style.addition}>{(users[answer.user_id] || {}).name}</p>
         <p className={style.addition}>{moment(answer.created_at).fromNow()}</p>
         <p>{answer.text}</p>
+        {this.renderCommentClose(answer)}
       </div>
     ));
+  }
+
+  renderCommentClose(answer) {
+    const { auth, question } = this.props;
+
+    if (question.user_id !== auth.id || question.is_answered) {
+      return null;
+    }
+
+    const onClick = () => {
+      this.props.actions.closeQuestion(answer);
+    };
+
+    return (
+      <Btn scheme="green" onClick={onClick}>Ответ на вопрос</Btn>
+    );
   }
 
   render() {

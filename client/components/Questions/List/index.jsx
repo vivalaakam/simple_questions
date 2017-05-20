@@ -7,15 +7,15 @@ import style from './List.scss';
 import LoggedIn from '../../../containers/LoggedIn';
 
 const FILTER_TITLES = {
-  [FILTER_ALL]: 'All',
-  [FILTER_ACTIVE]: 'Active',
-  [FILTER_COMPLETED]: 'Completed'
+  [FILTER_ALL]: 'Все',
+  [FILTER_ACTIVE]: 'Активные',
+  [FILTER_COMPLETED]: 'Закрытые'
 };
 
 const QUESTION_FILTERS = {
   [FILTER_ALL]: () => true,
-  [FILTER_ACTIVE]: question => !question.completed,
-  [FILTER_COMPLETED]: question => question.completed
+  [FILTER_ACTIVE]: question => !question.is_answered,
+  [FILTER_COMPLETED]: question => question.is_answered
 };
 
 export default class QuestionsList extends Component {
@@ -72,7 +72,7 @@ export default class QuestionsList extends Component {
   render() {
     const { list, filter } = this.props;
     const filteredQuestions = list.filter(QUESTION_FILTERS[filter]);
-    const completed = list.reduce((count, question) => (question.completed ? count + 1 : count), 0);
+    const completed = list.reduce((count, question) => (question.is_answered ? count + 1 : count), 0);
     return (
       <div className={style.QuestionsList}>
         <div className={style.navigation}>

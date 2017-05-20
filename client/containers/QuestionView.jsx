@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import {
   toggleAdditionQuestion,
   createAdditionQuestion,
+  closeQuestion,
   changeQuestion,
   createAnswerQuestion
 } from '../reducers/questions/question';
@@ -22,6 +23,7 @@ const actionsDispatch = dispatch => ({
     toggleAdditionQuestion,
     createAdditionQuestion,
     createAnswerQuestion,
+    closeQuestion,
     changeQuestion
   }, dispatch),
   dispatch
