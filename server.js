@@ -29,6 +29,7 @@ app.use('/api', proxy({
   changeOrigin: true,
   logLevel: 'debug',
   pathRewrite: { '^/api': '' },
+  ws:true,
   onProxyReq: (proxyReq, req) => {
     if (req.body) {
       const bodyData = JSON.stringify(req.body);

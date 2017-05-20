@@ -1,0 +1,84 @@
+$main-color: #474f60;
+
+.Notification {
+  width: 300px;
+  height: 75px;
+  background-color: scale-color($main-color, $lightness: 85%);
+  border: 1px solid scale-color($main-color, $lightness: 65%);
+  color: $main-color;
+  padding: 5px 10px;
+  position: relative;
+  border-radius: 3px;
+  padding-right: 22px;
+  margin-bottom: 5px;
+  &:last-child {
+    margin-bottom: 0px;
+  }
+
+  &:nth-last-child(n+4) {
+    display: none;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  .title {
+    font-weight: 600;
+  }
+
+  .text {
+    font-weight: 300;
+  }
+
+  .close {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    color: scale-color($main-color, $lightness: 65%);
+    text-decoration: none;
+    width: 20px;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+
+    &:hover {
+      color: scale-color($main-color, $lightness: 50%);
+      cursor: pointer;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .animationActive {
+    animation: animScale 0.5s linear;
+  }
+
+  .animationLeave {
+    animation: animHideScale 0.5s linear;
+  }
+}
+
+@keyframes animScale {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 40px, 0) scale3d(0.1, 0.6, 1);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+  }
+}
+
+@keyframes animHideScale {
+  100% {
+    opacity: 0;
+    transform: translateX(320px);
+  }
+  0% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}

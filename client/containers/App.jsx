@@ -1,15 +1,17 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Modal from './Modal';
+import Notifications from './Notifications';
 import AppWidget from '../components/App';
 
-function App({ children }) {
+function App({ children, router }) {
   return (
     <div className="app">
       <AppWidget>
         {children}
       </AppWidget>
       <Modal />
+      <Notifications router={router} />
     </div>
   );
 }
