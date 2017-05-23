@@ -5,7 +5,7 @@ class Channel {
   constructor() {
     if (typeof window !== 'undefined') {
       const ActionCable = require('actioncable');
-      this.channel = ActionCable.createConsumer(`/cable?token=${token.getToken()}`);
+      this.channel = ActionCable.createConsumer(`/api/cable?token=${token.getToken()}`);
     }
   }
 

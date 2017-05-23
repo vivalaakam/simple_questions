@@ -24,12 +24,12 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-app.use('/api', proxy({
+const myProxy = proxy('/api', {
   target: process.env.PROXY_SERVER,
   changeOrigin: true,
   logLevel: 'debug',
   pathRewrite: { '^/api': '' },
-  ws:true,
+  ws: true,
   onProxyReq: (proxyReq, req) => {
     if (req.body) {
       const bodyData = JSON.stringify(req.body);
@@ -38,11 +38,15 @@ app.use('/api', proxy({
       proxyReq.write(bodyData);
     }
   }
-}));
+});
+
+app.use(myProxy);
 
 app.get('/*', fill, context, render);
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   /* eslint no-console: ["error", { allow: ["log"] }] */
   console.log(`Listening on port ${port}`);
 });
+
+server.on('upgrade', myProxy.upgrade);

@@ -41,7 +41,7 @@ export default class QuestionView extends PureComponent {
     this.props.actions.changeQuestion({
       answerText: this.answer.value
     });
-  }
+  };
 
   setRefAddition = (link) => {
     this.text = link;
