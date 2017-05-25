@@ -5,7 +5,9 @@ class Channel {
   constructor() {
     if (typeof window !== 'undefined') {
       const ActionCable = require('actioncable');
-      this.channel = ActionCable.createConsumer(`/api/cable?token=${token.getToken()}`);
+      const uri = process.env.PROXY_SERVER.replace(/^(http)(s?:\/\/)/, 'ws$2');
+      console.log(uri);
+      this.channel = ActionCable.createConsumer(`${uri}/cable?token=${token.getToken()}`);
     }
   }
 
