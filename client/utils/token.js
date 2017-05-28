@@ -8,7 +8,7 @@ export default {
     return null;
   },
   getRawToken() {
-    return typeof localStorage !== 'undefined' && && localStorage.getItem(KEY);
+    return typeof localStorage !== 'undefined' && localStorage.getItem(KEY);
   },
   setToken(jwt) {
     if (jwt) {
