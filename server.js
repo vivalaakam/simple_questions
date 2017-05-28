@@ -48,5 +48,3 @@ const server = app.listen(port, () => {
   /* eslint no-console: ["error", { allow: ["log"] }] */
   console.log(`Listening on port ${port}`);
 });
-
-server.on('upgrade', myProxy.upgrade);

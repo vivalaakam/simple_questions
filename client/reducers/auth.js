@@ -4,7 +4,7 @@ import { resolveActionModal } from './modal';
 import { merge } from '../helpers/ramda';
 import Auth from '../api/auth';
 import User from '../api/user';
-
+import { notificationSubscribe, notificationUnsubscribe } from './notifications';
 import token from '../utils/token';
 import sw from '../utils/serviceWorker';
 
@@ -82,11 +82,13 @@ function* applyAuthAction({ payload }) {
   yield put(currentAuth({ ...payload, tmp_last_name: payload.last_name, tmp_first_name: payload.first_name }));
   sw.subscribeUser(token.getRawToken());
   yield put(resolveActionModal());
+  yield call(notificationSubscribe);
 }
 
 function* logoutAction() {
   yield apiAuth.logout();
   yield put(currentAuth($$initialState));
+  yield call(notificationUnsubscribe);
   sw.unsubscribeUser();
   token.removeToken();
 }
@@ -137,6 +139,12 @@ function* authWatcher() {
   yield fork(takeLatest, AUTH_LOGOUT, logoutAction);
   yield fork(takeLatest, AUTH_TOKEN_REMOVE, removeTokenAction);
   yield fork(takeLatest, AUTH_NOTIFICATION_REMOVE, removeNotificationAction);
+
+  const user = yield select(getUser);
+
+  if (user.id) {
+    yield call(notificationSubscribe);
+  }
 }
 
 export function* authData() {

@@ -4,6 +4,7 @@ import { resetSearchApp } from './app';
 import { append, removeByKey } from '../helpers/ramda';
 import Socket from '../api/socket';
 import Notifications from '../api/notifications';
+import token from '../utils/token';
 
 const notificationsApi = new Notifications();
 
@@ -45,10 +46,13 @@ function* clearNotificationAction() {
   yield put(resetSearchApp({ notificationsActive: false }));
 }
 
-export function* notificationsData() {
-  yield fork(takeEvery, NOTIFICATION_CLOSE, closeNotificationAction);
-  yield fork(takeEvery, NOTIFICATION_CLEAR, clearNotificationAction);
-  const socketChannel = yield call(::Socket.subscribe, 'NotificationChannel');
+let socketChannel;
+
+export function* notificationSubscribe() {
+  if (socketChannel && socketChannel.close) {
+    yield socketChannel.close();
+  }
+  socketChannel = yield call(::Socket.subscribe, 'NotificationChannel', token.getToken());
 
   while (true) {
     const payload = yield take(socketChannel);
@@ -56,4 +60,15 @@ export function* notificationsData() {
       yield put(createNotification({ ...payload.message, is_new: true }));
     }
   }
+}
+
+export function* notificationUnsubscribe() {
+  if (socketChannel.close) {
+    yield socketChannel.close();
+  }
+}
+
+export function* notificationsData() {
+  yield fork(takeEvery, NOTIFICATION_CLOSE, closeNotificationAction);
+  yield fork(takeEvery, NOTIFICATION_CLEAR, clearNotificationAction);
 }
