@@ -2,13 +2,13 @@ const KEY = 'jwtToken';
 
 export default {
   getToken() {
-    if (localStorage.getItem(KEY)) {
+    if (typeof localStorage !== 'undefined' && localStorage.getItem(KEY)) {
       return `JWT ${localStorage.getItem(KEY)}`;
     }
     return null;
   },
   getRawToken() {
-    return localStorage.getItem(KEY);
+    return typeof localStorage !== 'undefined' && && localStorage.getItem(KEY);
   },
   setToken(jwt) {
     if (jwt) {

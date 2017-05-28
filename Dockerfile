@@ -4,6 +4,10 @@ MAINTAINER Andrey Makarov <vivalaakam@gmail.com>
 
 ENV INSTALL_PATH /app
 
+ENV PROXY_SERVER https://api.makarov-andrey.me
+ENV NODE_ENV production
+ENV VAPID_PUBLIC_KEY BPy9XTeHe_l-gDP4ttZkE17CxjPxXFpcMxTLlgxnF25hbMTeN5DvqRgSqaeU1ChaANIbaJ8FYCsLm1ZAcAGNEJ8=
+
 RUN mkdir -p $INSTALL_PATH
 
 WORKDIR $INSTALL_PATH
